@@ -1,12 +1,13 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.junit5.annotations;
+package org.tframework.test.junit5;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.elements.ElementScope;
 import org.tframework.core.elements.annotations.Element;
-import org.tframework.test.junit5.TFrameworkExtension;
+import org.tframework.test.annotations.ElementSettings;
+import org.tframework.test.annotations.SetRootClass;
 
 /**
  * A composed annotation of {@link TFrameworkExtension} and configurations, that can be used to start a full-fledged
@@ -20,12 +21,12 @@ import org.tframework.test.junit5.TFrameworkExtension;
         useTestClassAsRoot = false,
         findRootClassOnClasspath = true
 )
-@SetElements(
+@ElementSettings(
         rootScanningEnabled = true,
         rootHierarchyScanningEnabled = true,
         internalScanningEnabled = true
 )
 @Element(scope = ElementScope.SINGLETON)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TFrameworkTest {
+public @interface TFrameworkJunit5Test {
 }

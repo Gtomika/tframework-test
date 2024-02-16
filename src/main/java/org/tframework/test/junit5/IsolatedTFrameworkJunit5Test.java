@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.junit5.annotations;
+package org.tframework.test.junit5;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.TFrameworkRootClass;
-import org.tframework.test.junit5.TFrameworkExtension;
+import org.tframework.test.annotations.ElementSettings;
+import org.tframework.test.annotations.SetRootClass;
 
 /**
  * A composed annotation of {@link TFrameworkExtension} and other configurations: this allows to
@@ -21,7 +22,7 @@ import org.tframework.test.junit5.TFrameworkExtension;
         useTestClassAsRoot = true,
         findRootClassOnClasspath = false
 )
-@SetElements(
+@ElementSettings(
         rootScanningEnabled = true, //only the root class (which is the test class) will be scanned
         rootHierarchyScanningEnabled = false,
         internalScanningEnabled = false
@@ -29,5 +30,5 @@ import org.tframework.test.junit5.TFrameworkExtension;
 @TFrameworkRootClass
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IsolatedTFrameworkTest {
+public @interface IsolatedTFrameworkJunit5Test {
 }

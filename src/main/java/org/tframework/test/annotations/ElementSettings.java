@@ -1,18 +1,16 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.junit5.annotations;
+package org.tframework.test.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import org.tframework.test.junit5.TFrameworkExtension;
 
 /**
- * Used in conjunction with {@link TFrameworkExtension} to specify element related settings
- * or additional classes/packages that should be scanned during tests.
+ * Used in conjunction with Tframework tests to specify element related settings.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SetElements {
+public @interface ElementSettings {
 
     /**
      * Control if the root scanning should be enabled.
@@ -31,17 +29,5 @@ public @interface SetElements {
      * @see org.tframework.core.elements.scanner.InternalElementClassScanner
      */
     boolean internalScanningEnabled() default true;
-
-    /**
-     * Set additional packages to scanned for elements.
-     * @see org.tframework.core.elements.scanner.PackagesElementClassScanner
-     */
-    String[] scanAdditionalPackages() default {};
-
-    /**
-     * Set additional classes to be scanned for elements.
-     * @see org.tframework.core.elements.scanner.ClassesElementClassScanner
-     */
-    String[] scanAdditionalClasses() default {};
 
 }

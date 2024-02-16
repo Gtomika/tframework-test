@@ -1,13 +1,12 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.junit5.annotations;
+package org.tframework.test.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import org.tframework.test.junit5.TFrameworkExtension;
 
 /**
- * Used in conjunction with {@link TFrameworkExtension} to specify the application's root class. Note that only
+ * Used in conjunction with Tframework tests to specify the application's root class. Note that only
  * one attribute of this annotation can be used to specify the root class. For example if {@link #useTestClassAsRoot()}
  * is set to true, then {@link #findRootClassOnClasspath()} should be false, and {@link #rootClass()} should be
  * left unspecified.

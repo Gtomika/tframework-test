@@ -7,11 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.tframework.core.Application;
 import org.tframework.core.elements.annotations.InjectElement;
-import org.tframework.test.junit5.annotations.SetApplicationName;
-import org.tframework.test.junit5.annotations.TFrameworkTest;
+import org.tframework.test.annotations.SetApplicationName;
 
 @SetApplicationName("fullApp")
-@TFrameworkTest
+@TFrameworkJunit5Test
 public class TframeworkTestAnnotationTest {
 
     @Test

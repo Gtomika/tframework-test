@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.junit5.annotations;
+package org.tframework.test.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

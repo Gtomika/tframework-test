@@ -9,17 +9,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.Application;
 import org.tframework.core.elements.annotations.Element;
 import org.tframework.core.elements.annotations.InjectElement;
-import org.tframework.test.junit5.annotations.SetApplicationName;
-import org.tframework.test.junit5.annotations.SetElements;
-import org.tframework.test.junit5.annotations.SetProfiles;
-import org.tframework.test.junit5.annotations.SetProperties;
-import org.tframework.test.junit5.annotations.SetRootClass;
+import org.tframework.test.annotations.ElementSettings;
+import org.tframework.test.annotations.SetApplicationName;
+import org.tframework.test.annotations.SetProfiles;
+import org.tframework.test.annotations.SetProperties;
+import org.tframework.test.annotations.SetRootClass;
 
 @SetProfiles("test")
 @SetProperties("cool.prop=123")
 @SetApplicationName("myCoolTestApp")
 @SetRootClass(rootClass = DummyRootClass.class)
-@SetElements(
+@ElementSettings(
         rootScanningEnabled = true,
         rootHierarchyScanningEnabled = false,
         internalScanningEnabled = false

@@ -35,23 +35,18 @@ import org.tframework.core.elements.dependency.graph.ElementDependencyGraph;
 import org.tframework.core.elements.dependency.resolver.DependencyResolverAggregator;
 import org.tframework.core.elements.dependency.resolver.DependencyResolversFactory;
 import org.tframework.core.elements.scanner.ClassesElementClassScanner;
-import org.tframework.core.elements.scanner.InternalElementClassScanner;
-import org.tframework.core.elements.scanner.PackagesElementClassScanner;
-import org.tframework.core.elements.scanner.RootElementClassScanner;
 import org.tframework.core.profiles.scanners.SystemPropertyProfileScanner;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
 import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.junit5.annotations.ExpectInitializationFailure;
-import org.tframework.test.junit5.annotations.InjectInitializationException;
-import org.tframework.test.junit5.annotations.IsolatedTFrameworkTest;
-import org.tframework.test.junit5.annotations.SetApplicationName;
-import org.tframework.test.junit5.annotations.SetCommandLineArguments;
-import org.tframework.test.junit5.annotations.SetElements;
-import org.tframework.test.junit5.annotations.SetProfiles;
-import org.tframework.test.junit5.annotations.SetProperties;
-import org.tframework.test.junit5.annotations.SetRootClass;
-import org.tframework.test.junit5.annotations.TFrameworkTest;
+import org.tframework.test.annotations.ElementSettings;
+import org.tframework.test.annotations.ExpectInitializationFailure;
+import org.tframework.test.annotations.InjectInitializationException;
+import org.tframework.test.annotations.SetApplicationName;
+import org.tframework.test.annotations.SetCommandLineArguments;
+import org.tframework.test.annotations.SetProfiles;
+import org.tframework.test.annotations.SetProperties;
+import org.tframework.test.annotations.SetRootClass;
 import org.tframework.test.utils.PredicateExecutor;
 import org.tframework.test.utils.SystemPropertyHelper;
 import org.tframework.test.utils.TestActionsUtils;
@@ -60,7 +55,7 @@ import org.tframework.test.utils.TestActionsUtils;
  * This is a JUnit 5 extension that allows to easily start TFramework applications. <b>The test class must be marked
  * with {@link Element}, so that it will be scanned, allowing to field inject dependencies</b>. The application will
  * be started before the tests, once. It will be stopped after all tests are completed. It is recommended to use the
- * composed annotations {@link TFrameworkTest} or {@link IsolatedTFrameworkTest} which come with some useful configurations.
+ * composed annotations {@link TFrameworkJunit5Test} or {@link IsolatedTFrameworkJunit5Test} which come with some useful configurations.
  *
  * <strong>Configuring the application</strong><br><br>
  * Additional annotations can be used on the test class to specify the details of the started application:
@@ -70,7 +65,7 @@ import org.tframework.test.utils.TestActionsUtils;
  *     <li>{@link SetCommandLineArguments} can be used to specify arguments passed to the application. By default nothing will be passed.</li>
  *     <li>{@link SetProfiles} can be used to set profiles.</li>
  *     <li>{@link SetProperties} can be used to control general properties.</li>
- *     <li>{@link SetElements} can be used to control element related settings, such as what to scan.</li>
+ *     <li>{@link ElementSettings} can be used to control element related settings, such as what to scan.</li>
  * </ul>
  * A {@link ComposedAnnotationScanner} will be used to pick up these annotations,
  * so it is possible to use composed meta annotations that combine {@link ExtendWith} and
@@ -96,13 +91,13 @@ import org.tframework.test.utils.TestActionsUtils;
  *         exception that caused the failure, which can be asserted inside the test.
  *     </li>
  * </ul>
- * @see IsolatedTFrameworkTest
- * @see TFrameworkTest
+ * @see IsolatedTFrameworkJunit5Test
+ * @see TFrameworkJunit5Test
  */
 @Slf4j
 public class TFrameworkExtension implements Extension, BeforeAllCallback, TestInstanceFactory, AfterAllCallback, ParameterResolver {
 
-    private static final String SOURCE_ANNOTATION = "sourceAnnotation";
+
     private static final String DECLARED_AS_TEST_PARAMETER = "JUnit 5 test method parameter";
 
     private static final String TOO_MANY_ROOT_CLASSES_ERROR_TEMPLATE = "More than one class was found to annotated with '" +
@@ -344,36 +339,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     }
 
     private void placeElementSettingsForApplication(Class<?> testClass) {
-        annotationScanner.scanOneStrict(testClass, SetElements.class).ifPresent(setElementsAnnotation -> {
-            MDC.put(SOURCE_ANNOTATION, SetElements.class.getName());
 
-            systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                    RootElementClassScanner.ROOT_SCANNING_ENABLED_PROPERTY,
-                    String.valueOf(setElementsAnnotation.rootScanningEnabled())
-            );
-
-            systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                    RootElementClassScanner.ROOT_HIERARCHY_SCANNING_ENABLED_PROPERTY,
-                    String.valueOf(setElementsAnnotation.rootHierarchyScanningEnabled())
-            );
-
-            systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                    InternalElementClassScanner.TFRAMEWORK_INTERNAL_SCAN_ENABLED_PROPERTY,
-                    String.valueOf(setElementsAnnotation.internalScanningEnabled())
-            );
-
-            systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                    PackagesElementClassScanner.SCAN_PACKAGES_PROPERTY,
-                    Arrays.asList(setElementsAnnotation.scanAdditionalPackages())
-            );
-
-            systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                    ClassesElementClassScanner.SCAN_CLASSES_PROPERTY,
-                    Arrays.asList(setElementsAnnotation.scanAdditionalClasses())
-            );
-
-            MDC.remove(SOURCE_ANNOTATION);
-        });
 
     }
 
