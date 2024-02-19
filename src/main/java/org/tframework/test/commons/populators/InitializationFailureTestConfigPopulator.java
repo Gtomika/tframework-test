@@ -2,8 +2,8 @@
 package org.tframework.test.commons.populators;
 
 import org.tframework.core.reflection.annotations.AnnotationScanner;
-import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 import org.tframework.test.commons.TestConfig;
+import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 
 public class InitializationFailureTestConfigPopulator implements TestConfigPopulator {
 

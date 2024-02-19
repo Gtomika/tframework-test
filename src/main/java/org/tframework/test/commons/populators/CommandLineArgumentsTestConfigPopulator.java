@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
-import org.tframework.test.commons.annotations.SetCommandLineArguments;
 import org.tframework.test.commons.TestConfig;
+import org.tframework.test.commons.annotations.SetCommandLineArguments;
 
 @Slf4j
 public class CommandLineArgumentsTestConfigPopulator implements TestConfigPopulator {

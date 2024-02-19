@@ -2,8 +2,8 @@
 package org.tframework.test.commons.populators;
 
 import org.tframework.core.reflection.annotations.AnnotationScanner;
-import org.tframework.test.commons.annotations.SetRootClass;
 import org.tframework.test.commons.TestConfig;
+import org.tframework.test.commons.annotations.SetRootClass;
 
 public class RootClassTestConfigPopulator implements TestConfigPopulator {
 

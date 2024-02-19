@@ -2,10 +2,6 @@
 package org.tframework.test.junit5;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -17,19 +13,20 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestInstanceFactory;
 import org.junit.jupiter.api.extension.TestInstanceFactoryContext;
 import org.junit.jupiter.api.extension.TestInstantiationException;
-import org.slf4j.MDC;
 import org.tframework.core.Application;
 import org.tframework.core.TFramework;
 import org.tframework.core.elements.annotations.Element;
-import org.tframework.core.elements.context.ElementContext;
 import org.tframework.core.elements.dependency.DependencyDefinition;
 import org.tframework.core.elements.dependency.InjectAnnotationScanner;
 import org.tframework.core.elements.dependency.graph.ElementDependencyGraph;
-import org.tframework.core.elements.dependency.resolver.DependencyResolverAggregator;
-import org.tframework.core.elements.dependency.resolver.DependencyResolversFactory;
-import org.tframework.core.profiles.scanners.SystemPropertyProfileScanner;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
+import org.tframework.test.commons.FailedLaunchResult;
+import org.tframework.test.commons.LaunchResult;
+import org.tframework.test.commons.SuccessfulLaunchResult;
+import org.tframework.test.commons.TestApplicationLauncher;
+import org.tframework.test.commons.TestApplicationLauncherFactory;
+import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 import org.tframework.test.commons.annotations.InjectInitializationException;
 import org.tframework.test.commons.annotations.SetApplicationName;
@@ -37,7 +34,12 @@ import org.tframework.test.commons.annotations.SetCommandLineArguments;
 import org.tframework.test.commons.annotations.SetProfiles;
 import org.tframework.test.commons.annotations.SetProperties;
 import org.tframework.test.commons.annotations.SetRootClass;
-import org.tframework.test.commons.utils.SystemPropertyHelper;
+import org.tframework.test.commons.appliers.TestConfigAppliersBundle;
+import org.tframework.test.commons.appliers.TestConfigAppliersFactory;
+import org.tframework.test.commons.populators.TestConfigPopulatorsBundle;
+import org.tframework.test.commons.populators.TestConfigPopulatorsFactory;
+import org.tframework.test.commons.validators.TestClassValidatorsBundle;
+import org.tframework.test.commons.validators.TestClassValidatorsFactory;
 
 /**
  * This is a JUnit 5 extension that allows to easily start TFramework applications. <b>The test class must be marked
@@ -85,64 +87,44 @@ import org.tframework.test.commons.utils.SystemPropertyHelper;
 @Slf4j
 public class TFrameworkExtension implements Extension, BeforeAllCallback, TestInstanceFactory, AfterAllCallback, ParameterResolver {
 
+    private static final String EXTENSION_NAME = "junit5-extension";
 
     private static final String DECLARED_AS_TEST_PARAMETER = "JUnit 5 test method parameter";
 
-
-    private static final String TEST_CLASS_NOT_ELEMENT_ERROR = "The test class '%s' should be marked with '" +
-            Element.class.getName() + "'";
-
-
-
-
     private final AnnotationScanner annotationScanner = AnnotationScannersFactory.createComposedAnnotationScanner();
     private final InjectAnnotationScanner injectAnnotationScanner = new InjectAnnotationScanner(annotationScanner);
-    private final SystemPropertyHelper systemPropertyHelper = new SystemPropertyHelper();
 
-    private DependencyResolverAggregator dependencyResolverAggregator;
-    private boolean successfulAppInitialization;
-    private Application application;
-    private ElementContext testClassElementContext;
-    private Exception initializationException;
+    private final TestConfig.TestConfigBuilder configBuilder;
+    private final TestClassValidatorsBundle validators;
+    private final TestConfigPopulatorsBundle populators;
+    private final TestConfigAppliersBundle appliers;
+    private final TestApplicationLauncher launcher;
+    private LaunchResult launchResult;
+
+    public TFrameworkExtension(TestConfig.TestConfigBuilder configBuilder) {
+        this.configBuilder = configBuilder;
+        this.validators = TestClassValidatorsFactory.createTestClassValidators();
+        this.populators = TestConfigPopulatorsFactory.createTestConfigPopulators();
+        this.appliers = TestConfigAppliersFactory.createTestConfigAppliers(EXTENSION_NAME);
+        this.launcher = TestApplicationLauncherFactory.createTestApplicationLauncher();
+    }
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
         var testClass = extensionContext.getRequiredTestClass();
-        checkIfTestClassIsElement(testClass);
-        setTestClassForElementScanning(testClass);
+        validators.applyAllValidations(testClass);
 
-        placeProfilesForApplication(testClass);
-        placePropertiesForApplication(testClass);
-        placeElementSettingsForApplication(testClass);
+        populators.populateWithAll(configBuilder, testClass);
+        TestConfig testConfig = configBuilder.build();
+        appliers.applyAll(testConfig);
 
-        boolean expectFailure = detectExpectFailure(testClass);
-        log.debug("Starting TFramework application from test class '{}'. Failure expected: {}", testClass.getName(), expectFailure);
-        try {
-            application = TFramework.start(
-                    findApplicationName(testClass),
-                    findRootClass(testClass),
-                    findCommandLineArguments(testClass)
-            );
-
-            //these resolvers will be used to inject parameters into test methods
-            dependencyResolverAggregator = DependencyResolverAggregator.usingResolvers(List.of(
-                    DependencyResolversFactory.createElementDependencyResolver(application.getElementsContainer()),
-                    DependencyResolversFactory.createPropertyDependencyResolver(application.getPropertiesContainer())
-            ));
-
-            successfulAppInitialization = true;
-        } catch (Exception e) {
-            log.warn("TFramework application failed to initialize", e);
-            initializationException = e;
-            successfulAppInitialization = false;
-        }
-        checkUnexpectedApplicationState(expectFailure, successfulAppInitialization);
+        launchResult = launcher.launchTestApplication(testConfig);
     }
 
     @Override
     public Object createTestInstance(TestInstanceFactoryContext testInstanceFactoryContext, ExtensionContext extensionContext) throws TestInstantiationException {
-        if(successfulAppInitialization) {
-            testClassElementContext = application.getElementsContainer()
+        if(launchResult instanceof SuccessfulLaunchResult successfulLaunchResult) {
+            var testClassElementContext = successfulLaunchResult.application().getElementsContainer()
                     .getElementContext(extensionContext.getRequiredTestClass());
             log.debug("Found the test class element context '{}', requesting test instance...", testClassElementContext.getName());
             return testClassElementContext.requestInstance();
@@ -157,12 +139,12 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     }
 
     @Override
-    public void afterAll(ExtensionContext context) {
-        if(successfulAppInitialization) {
-            log.debug("Shutting down the '{}' application after all tests", application.getName());
-            TFramework.stop(application);
+    public void afterAll(ExtensionContext context) throws Exception {
+        if(launchResult instanceof SuccessfulLaunchResult successfulLaunchResult) {
+            log.debug("Shutting down the '{}' application after all tests", successfulLaunchResult.application().getName());
+            TFramework.stop(successfulLaunchResult.application());
         }
-        systemPropertyHelper.cleanUp();
+        appliers.close();
     }
 
     @Override
@@ -172,7 +154,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                     "the application is not yet started.");
             return false;
         }
-        if(successfulAppInitialization) {
+        if(launchResult.successfulLaunch()) {
             return injectAnnotationScanner.hasAnyInjectAnnotations(parameterContext.getParameter());
         } else {
             return annotationScanner.hasAnnotation(parameterContext.getParameter(), InjectInitializationException.class);
@@ -181,100 +163,18 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        if(successfulAppInitialization) {
-            var definition = DependencyDefinition.fromParameter(parameterContext.getParameter());
-            return dependencyResolverAggregator.resolveDependency(
-                    definition,
-                    testClassElementContext,
-                    ElementDependencyGraph.empty(),
-                    DECLARED_AS_TEST_PARAMETER
-            );
-        } else {
-            return initializationException;
-        }
-    }
-
-    private boolean detectExpectFailure(Class<?> testClass) {
-        return annotationScanner.hasAnnotation(testClass, ExpectInitializationFailure.class);
-    }
-
-
-
-    private void checkIfTestClassIsElement(Class<?> testClass) {
-        if(!annotationScanner.hasAnnotation(testClass, Element.class)) {
-            throw new IllegalStateException(TEST_CLASS_NOT_ELEMENT_ERROR.formatted(testClass.getName()));
-        }
-    }
-
-    private void setTestClassForElementScanning(Class<?> testClass) {
-
-    }
-
-    private String findApplicationName(Class<?> testClass) {
-        return annotationScanner.scanOneStrict(testClass, SetApplicationName.class)
-                .map(SetApplicationName::value)
-                .orElseGet(() -> {
-                    String defaultName = testClass.getName();
-                    log.debug("No '{}' test annotation was found, using default name '{}' for the application",
-                            SetApplicationName.class.getName(), defaultName);
-                    return defaultName;
-                });
-    }
-
-    private Class<?> findRootClass(Class<?> testClass) {
-        var rootClassAnnotationOptional = annotationScanner.scanOneStrict(testClass, SetRootClass.class);
-        if(rootClassAnnotationOptional.isPresent()) {
-            var rootClassAnnotation = rootClassAnnotationOptional.get();
-
+        return switch (launchResult) {
+            case SuccessfulLaunchResult successfulLaunchResult -> {
+                var definition = DependencyDefinition.fromParameter(parameterContext.getParameter());
+                return successfulLaunchResult.dependencyResolver().resolveDependency(
+                        definition,
+                        testClassElementContext,
+                        ElementDependencyGraph.empty(),
+                        DECLARED_AS_TEST_PARAMETER
+                );
             }
-        } else {
-            log.debug("No '{}' test annotation was found, using test class as default root class '{}'",
-                    SetRootClass.class.getName(), testClass.getName());
-            return testClass;
-        }
-    }
-
-
-
-
-
-    private String[] findCommandLineArguments(Class<?> testClass) {
-        return annotationScanner.scanOneStrict(testClass, SetCommandLineArguments.class)
-                .map(SetCommandLineArguments::value)
-                .orElseGet(() -> {
-                    log.debug("No '{}' test annotation was found, not setting any command line arguments", SetCommandLineArguments.class.getName());
-                    return new String[] {};
-                });
-    }
-
-    private void placeProfilesForApplication(Class<?> testClass) {
-        annotationScanner.scan(testClass, SetProfiles.class).forEach(profilesAnnotation -> {
-            var profiles = Arrays.asList(profilesAnnotation.value());
-            if(profiles.isEmpty()) return;
-            log.debug("The following profiles will be activated by '{}' test annotation: {}", SetProfiles.class.getName(), profiles);
-
-            String profilesActivated = String.join(",", profiles);
-
-            String uniqueProfilesSystemPropertyName = SystemPropertyProfileScanner.PROFILES_SYSTEM_PROPERTY +
-                    ".junit5-extension-" + UUID.randomUUID();
-            systemPropertyHelper.setIntoSystemProperties(uniqueProfilesSystemPropertyName, profilesActivated);
-        });
-    }
-
-    private void placePropertiesForApplication(Class<?> testClass) {
-        annotationScanner.scan(testClass, SetProperties.class).forEach(propertiesAnnotation -> {
-            var properties = Arrays.asList(propertiesAnnotation.value());
-            if(properties.isEmpty()) return;
-
-            MDC.put(SOURCE_ANNOTATION, SetProperties.class.getName());
-            properties.forEach(systemPropertyHelper::setRawFrameworkPropertyIntoSystemProperties);
-            MDC.remove(SOURCE_ANNOTATION);
-        });
-    }
-
-    private void placeElementSettingsForApplication(Class<?> testClass) {
-
-
+            case FailedLaunchResult failedLaunchResult -> failedLaunchResult.initializationException();
+        };
     }
 
 }

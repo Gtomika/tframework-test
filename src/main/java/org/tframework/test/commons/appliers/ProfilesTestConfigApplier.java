@@ -1,3 +1,4 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.appliers;
 
 import lombok.extern.slf4j.Slf4j;
@@ -9,11 +10,11 @@ import org.tframework.test.commons.utils.SystemPropertyHelper;
 public class ProfilesTestConfigApplier implements TestConfigApplier {
 
     private final SystemPropertyHelper systemPropertyHelper;
-    private final String id;
+    private final String extensionName;
 
-    ProfilesTestConfigApplier(SystemPropertyHelper systemPropertyHelper, String id) {
+    ProfilesTestConfigApplier(SystemPropertyHelper systemPropertyHelper, String extensionName) {
         this.systemPropertyHelper = systemPropertyHelper;
-        this.id = id;
+        this.extensionName = extensionName;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class ProfilesTestConfigApplier implements TestConfigApplier {
 
             String profilesJoined = String.join(",", testConfig.profiles());
 
-            String profilesSystemProperty = SystemPropertyProfileScanner.PROFILES_SYSTEM_PROPERTY + "." + id;
+            String profilesSystemProperty = SystemPropertyProfileScanner.PROFILES_SYSTEM_PROPERTY + "." + extensionName;
             systemPropertyHelper.setIntoSystemProperties(profilesSystemProperty, profilesJoined);
         } else {
             log.debug("No additional profiles will be set for the test application");

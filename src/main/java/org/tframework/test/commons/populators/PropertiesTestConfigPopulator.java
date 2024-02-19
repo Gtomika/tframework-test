@@ -4,10 +4,9 @@ package org.tframework.test.commons.populators;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.tframework.core.reflection.annotations.AnnotationScanner;
-import org.tframework.test.commons.annotations.SetProperties;
 import org.tframework.test.commons.TestConfig;
+import org.tframework.test.commons.annotations.SetProperties;
 
 public class PropertiesTestConfigPopulator implements TestConfigPopulator {
 

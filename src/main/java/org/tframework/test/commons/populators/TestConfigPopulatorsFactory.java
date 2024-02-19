@@ -1,18 +1,17 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.populators;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
 
-import java.util.List;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestConfigPopulatorsFactory {
 
-    public static List<TestConfigPopulator> createTestConfigPopulators() {
+    public static TestConfigPopulatorsBundle createTestConfigPopulators() {
         var annotationScanner = AnnotationScannersFactory.createComposedAnnotationScanner();
-        return List.of(
+        var populators = List.of(
             new ApplicationNameTestConfigPopulator(annotationScanner),
             new CommandLineArgumentsTestConfigPopulator(annotationScanner),
             new ElementSettingsTestConfigPopulator(annotationScanner),
@@ -21,6 +20,7 @@ public final class TestConfigPopulatorsFactory {
             new PropertiesTestConfigPopulator(annotationScanner),
             new RootClassTestConfigPopulator(annotationScanner)
         );
+        return new TestConfigPopulatorsBundle(populators);
     }
 
 }
