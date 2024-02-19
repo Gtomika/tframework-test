@@ -5,15 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.SetCommandLineArguments;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.SetCommandLineArguments;
 import org.tframework.test.commons.TestConfig;
 
 @Slf4j
-public class CommandLineArgumentsTestConfigPopulator extends TestConfigPopulator {
+public class CommandLineArgumentsTestConfigPopulator implements TestConfigPopulator {
 
-    CommandLineArgumentsTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    CommandLineArgumentsTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override

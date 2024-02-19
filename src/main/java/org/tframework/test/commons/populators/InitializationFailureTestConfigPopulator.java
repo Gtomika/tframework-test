@@ -1,14 +1,16 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.populators;
 
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.ExpectInitializationFailure;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 import org.tframework.test.commons.TestConfig;
 
-public class InitializationFailureTestConfigPopulator extends TestConfigPopulator {
+public class InitializationFailureTestConfigPopulator implements TestConfigPopulator {
 
-    InitializationFailureTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    InitializationFailureTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override

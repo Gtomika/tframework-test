@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.utils;
+package org.tframework.test.commons.utils;
 
 import java.util.List;
 import java.util.stream.Collectors;

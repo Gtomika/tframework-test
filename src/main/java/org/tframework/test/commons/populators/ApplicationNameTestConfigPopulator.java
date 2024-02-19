@@ -2,15 +2,17 @@
 package org.tframework.test.commons.populators;
 
 import lombok.extern.slf4j.Slf4j;
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.SetApplicationName;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.SetApplicationName;
 import org.tframework.test.commons.TestConfig;
 
 @Slf4j
-public class ApplicationNameTestConfigPopulator extends TestConfigPopulator {
+public class ApplicationNameTestConfigPopulator implements TestConfigPopulator {
 
-    ApplicationNameTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    ApplicationNameTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override

@@ -1,19 +1,14 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.junit5;
 
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfo;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Executors;
+
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -25,31 +20,24 @@ import org.junit.jupiter.api.extension.TestInstantiationException;
 import org.slf4j.MDC;
 import org.tframework.core.Application;
 import org.tframework.core.TFramework;
-import org.tframework.core.TFrameworkRootClass;
 import org.tframework.core.elements.annotations.Element;
-import org.tframework.core.elements.annotations.InjectElement;
 import org.tframework.core.elements.context.ElementContext;
 import org.tframework.core.elements.dependency.DependencyDefinition;
 import org.tframework.core.elements.dependency.InjectAnnotationScanner;
 import org.tframework.core.elements.dependency.graph.ElementDependencyGraph;
 import org.tframework.core.elements.dependency.resolver.DependencyResolverAggregator;
 import org.tframework.core.elements.dependency.resolver.DependencyResolversFactory;
-import org.tframework.core.elements.scanner.ClassesElementClassScanner;
 import org.tframework.core.profiles.scanners.SystemPropertyProfileScanner;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.ElementSettings;
-import org.tframework.test.annotations.ExpectInitializationFailure;
-import org.tframework.test.annotations.InjectInitializationException;
-import org.tframework.test.annotations.SetApplicationName;
-import org.tframework.test.annotations.SetCommandLineArguments;
-import org.tframework.test.annotations.SetProfiles;
-import org.tframework.test.annotations.SetProperties;
-import org.tframework.test.annotations.SetRootClass;
-import org.tframework.test.utils.PredicateExecutor;
-import org.tframework.test.utils.SystemPropertyHelper;
-import org.tframework.test.utils.TestActionsUtils;
+import org.tframework.test.commons.annotations.ExpectInitializationFailure;
+import org.tframework.test.commons.annotations.InjectInitializationException;
+import org.tframework.test.commons.annotations.SetApplicationName;
+import org.tframework.test.commons.annotations.SetCommandLineArguments;
+import org.tframework.test.commons.annotations.SetProfiles;
+import org.tframework.test.commons.annotations.SetProperties;
+import org.tframework.test.commons.annotations.SetRootClass;
+import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 /**
  * This is a JUnit 5 extension that allows to easily start TFramework applications. <b>The test class must be marked
@@ -100,15 +88,12 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
 
     private static final String DECLARED_AS_TEST_PARAMETER = "JUnit 5 test method parameter";
 
-    private static final String TOO_MANY_ROOT_CLASSES_ERROR_TEMPLATE = "More than one class was found to annotated with '" +
-            TFrameworkRootClass.class.getName() + "' on the classpath: %s";
-    private static final String NO_ROOT_CLASS_ERROR = "No root class was found that is annotated with '" +
-            TFrameworkRootClass.class.getName() + "', but exactly one is required.";
+
     private static final String TEST_CLASS_NOT_ELEMENT_ERROR = "The test class '%s' should be marked with '" +
             Element.class.getName() + "'";
-    private static final String UNEXPECTED_START_ERROR = "Application initialization was expected to fail, but it succeeded!";
 
-    private static final int SCAN_THREAD_AMOUNT = 5;
+
+
 
     private final AnnotationScanner annotationScanner = AnnotationScannersFactory.createComposedAnnotationScanner();
     private final InjectAnnotationScanner injectAnnotationScanner = new InjectAnnotationScanner(annotationScanner);
@@ -213,15 +198,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         return annotationScanner.hasAnnotation(testClass, ExpectInitializationFailure.class);
     }
 
-    private void checkUnexpectedApplicationState(boolean expectFailure, boolean applicationInitialized) throws Exception {
-        if(applicationInitialized && expectFailure) {
-            throw new IllegalStateException(UNEXPECTED_START_ERROR);
-        }
-        if(!applicationInitialized && !expectFailure) {
-            //if the app expected to start, but did not, transiently rethrow the original exception
-            throw initializationException;
-        }
-    }
+
 
     private void checkIfTestClassIsElement(Class<?> testClass) {
         if(!annotationScanner.hasAnnotation(testClass, Element.class)) {
@@ -230,11 +207,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     }
 
     private void setTestClassForElementScanning(Class<?> testClass) {
-        String scanTestClassProperty = ClassesElementClassScanner.SCAN_CLASSES_PROPERTY + "-junit5-extension-test-class";
-        systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
-                scanTestClassProperty,
-                List.of(testClass.getName())
-        );
+
     }
 
     private String findApplicationName(Class<?> testClass) {
@@ -252,24 +225,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         var rootClassAnnotationOptional = annotationScanner.scanOneStrict(testClass, SetRootClass.class);
         if(rootClassAnnotationOptional.isPresent()) {
             var rootClassAnnotation = rootClassAnnotationOptional.get();
-            if(!rootClassAnnotation.rootClass().equals(SetRootClass.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED)) {
-                //root class was directly specified, so let's use that
-                return rootClassAnnotation.rootClass();
-            } else {
-                //root class was not specified, let's check the boolean fields
-                //this will run only of exactly one field is true, and the corresponding action will be used to find root class
-                return TestActionsUtils.executeIfExactlyOneIsTrue(rootClassAnnotation, List.of(
-                        new PredicateExecutor<>(
-                                "useTestClassAsRoot",
-                                SetRootClass::useTestClassAsRoot,
-                                () -> testClass
-                        ),
-                        new PredicateExecutor<>(
-                                "findRootClassOnClasspath",
-                                SetRootClass::findRootClassOnClasspath,
-                                this::findRootClassOnClasspath
-                        )
-                ));
+
             }
         } else {
             log.debug("No '{}' test annotation was found, using test class as default root class '{}'",
@@ -278,31 +234,9 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         }
     }
 
-    private Class<?> findRootClassOnClasspath() {
-        ClassGraph classGraph = new ClassGraph()
-                .enableClassInfo()
-                .enableAnnotationInfo();
 
-        try(var scanResult = classGraph.scan(Executors.newFixedThreadPool(SCAN_THREAD_AMOUNT), SCAN_THREAD_AMOUNT)) {
-            var rootClassCandidates = scanResult.getAllClasses()
-                    .filter(this::isClassDirectlyAnnotatedWithTframeworkRoot);
 
-            if(rootClassCandidates.size() > 1) {
-                throw new IllegalStateException(TOO_MANY_ROOT_CLASSES_ERROR_TEMPLATE.formatted(rootClassCandidates.getNames()));
-            }
-            if(rootClassCandidates.isEmpty()) {
-                throw new IllegalStateException(NO_ROOT_CLASS_ERROR);
-            }
-            return rootClassCandidates.getFirst().loadClass();
-        }
-    }
 
-    private boolean isClassDirectlyAnnotatedWithTframeworkRoot(ClassInfo info) {
-        boolean isDirectlyAnnotated = info.getAnnotationInfo().directOnly().stream().anyMatch(annotationInfo -> {
-            return annotationInfo.getName().equals(TFrameworkRootClass.class.getName());
-        });
-        return isDirectlyAnnotated && info.isStandardClass();
-    }
 
     private String[] findCommandLineArguments(Class<?> testClass) {
         return annotationScanner.scanOneStrict(testClass, SetCommandLineArguments.class)

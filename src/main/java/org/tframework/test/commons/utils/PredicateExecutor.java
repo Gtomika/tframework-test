@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.utils;
+package org.tframework.test.commons.utils;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;

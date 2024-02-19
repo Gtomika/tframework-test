@@ -9,11 +9,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.Application;
 import org.tframework.core.elements.annotations.Element;
 import org.tframework.core.elements.annotations.InjectElement;
-import org.tframework.test.annotations.ElementSettings;
-import org.tframework.test.annotations.SetApplicationName;
-import org.tframework.test.annotations.SetProfiles;
-import org.tframework.test.annotations.SetProperties;
-import org.tframework.test.annotations.SetRootClass;
+import org.tframework.test.commons.annotations.ElementSettings;
+import org.tframework.test.commons.annotations.SetApplicationName;
+import org.tframework.test.commons.annotations.SetProfiles;
+import org.tframework.test.commons.annotations.SetProperties;
+import org.tframework.test.commons.annotations.SetRootClass;
 
 @SetProfiles("test")
 @SetProperties("cool.prop=123")

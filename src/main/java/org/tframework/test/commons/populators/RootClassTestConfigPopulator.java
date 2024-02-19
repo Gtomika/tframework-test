@@ -1,14 +1,16 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.populators;
 
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.SetRootClass;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.SetRootClass;
 import org.tframework.test.commons.TestConfig;
 
-public class RootClassTestConfigPopulator extends TestConfigPopulator {
+public class RootClassTestConfigPopulator implements TestConfigPopulator {
 
-    RootClassTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    RootClassTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override

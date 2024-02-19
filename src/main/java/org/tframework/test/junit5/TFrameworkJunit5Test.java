@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.elements.ElementScope;
 import org.tframework.core.elements.annotations.Element;
-import org.tframework.test.annotations.ElementSettings;
-import org.tframework.test.annotations.SetRootClass;
+import org.tframework.test.commons.annotations.ElementSettings;
+import org.tframework.test.commons.annotations.SetRootClass;
 
 /**
  * A composed annotation of {@link TFrameworkExtension} and configurations, that can be used to start a full-fledged

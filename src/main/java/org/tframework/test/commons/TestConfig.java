@@ -6,7 +6,7 @@ import java.util.Set;
 import lombok.Builder;
 import org.tframework.core.TFrameworkRootClass;
 import org.tframework.core.properties.parsers.PropertyParsingUtils;
-import org.tframework.test.annotations.InjectInitializationException;
+import org.tframework.test.commons.annotations.InjectInitializationException;
 
 /**
  * All the configurations that can be used to customize the frameworks
@@ -32,6 +32,7 @@ import org.tframework.test.annotations.InjectInitializationException;
  *          Mutually exclusive with {@link #useTestClassAsRoot} and {@link #rootClass}
  * @param rootClass Configure the test application's root class explicitly. Not provided by default.
  *          Mutually exclusive with {@link #useTestClassAsRoot} and {@link #findRootClassOnClasspath}.
+ * @param testClass The class from which the test is running.
  *
  */
 @Builder
@@ -46,7 +47,8 @@ public record TestConfig(
          Set<String> properties,
          boolean useTestClassAsRoot,
          boolean findRootClassOnClasspath,
-         Class<?> rootClass
+         Class<?> rootClass,
+         Class<?> testClass
 ) {
 
 }

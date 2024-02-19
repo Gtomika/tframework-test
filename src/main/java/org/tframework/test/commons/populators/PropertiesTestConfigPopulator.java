@@ -4,14 +4,17 @@ package org.tframework.test.commons.populators;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.SetProperties;
+
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.SetProperties;
 import org.tframework.test.commons.TestConfig;
 
-public class PropertiesTestConfigPopulator extends TestConfigPopulator {
+public class PropertiesTestConfigPopulator implements TestConfigPopulator {
 
-    PropertiesTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    PropertiesTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 2024. */
-package org.tframework.test.annotations;
+package org.tframework.test.commons.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

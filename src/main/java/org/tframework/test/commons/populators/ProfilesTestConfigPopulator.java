@@ -5,15 +5,17 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
-import org.tframework.test.annotations.SetProfiles;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.annotations.SetProfiles;
 import org.tframework.test.commons.TestConfig;
 
 @Slf4j
-public class ProfilesTestConfigPopulator extends TestConfigPopulator {
+public class ProfilesTestConfigPopulator implements TestConfigPopulator {
 
-    ProfilesTestConfigPopulator(ComposedAnnotationScanner annotationScanner) {
-        super(annotationScanner);
+    private final AnnotationScanner annotationScanner;
+
+    ProfilesTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
     }
 
     @Override
