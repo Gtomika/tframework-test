@@ -2,11 +2,9 @@
 package org.tframework.test.commons.appliers;
 
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
-@RequiredArgsConstructor
 public record TestConfigAppliersBundle(
         SystemPropertyHelper systemPropertyHelper,
         List<TestConfigApplier> testConfigAppliers

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.elements.ElementScope;
 import org.tframework.core.elements.annotations.Element;
 import org.tframework.test.commons.annotations.ElementSettings;
-import org.tframework.test.commons.annotations.SetRootClass;
+import org.tframework.test.commons.annotations.RootClassSettings;
 
 /**
  * A composed annotation of {@link TFrameworkExtension} and configurations, that can be used to start a full-fledged
@@ -17,7 +17,7 @@ import org.tframework.test.commons.annotations.SetRootClass;
  * <b>When using this annotation, the test class must not also be the root class of the application.</b>
  */
 @ExtendWith(TFrameworkExtension.class)
-@SetRootClass(
+@RootClassSettings(
         useTestClassAsRoot = false,
         findRootClassOnClasspath = true
 )
@@ -28,5 +28,5 @@ import org.tframework.test.commons.annotations.SetRootClass;
 )
 @Element(scope = ElementScope.SINGLETON)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TFrameworkJunit5Test {
+public @interface TFrameworkTest {
 }

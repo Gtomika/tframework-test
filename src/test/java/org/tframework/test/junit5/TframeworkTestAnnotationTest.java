@@ -10,7 +10,7 @@ import org.tframework.core.elements.annotations.InjectElement;
 import org.tframework.test.commons.annotations.SetApplicationName;
 
 @SetApplicationName("fullApp")
-@TFrameworkJunit5Test
+@TFrameworkTest
 public class TframeworkTestAnnotationTest {
 
     @Test

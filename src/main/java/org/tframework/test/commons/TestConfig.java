@@ -35,7 +35,7 @@ import org.tframework.test.commons.annotations.InjectInitializationException;
  * @param testClass The class from which the test is running.
  *
  */
-@Builder
+@Builder(toBuilder = true)
 public record TestConfig(
          boolean expectInitializationFailure,
          String applicationName,

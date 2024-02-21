@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.tframework.core.TFrameworkRootClass;
 import org.tframework.test.commons.annotations.ElementSettings;
-import org.tframework.test.commons.annotations.SetRootClass;
+import org.tframework.test.commons.annotations.RootClassSettings;
 
 /**
  * A composed annotation of {@link TFrameworkExtension} and other configurations: this allows to
@@ -18,7 +18,7 @@ import org.tframework.test.commons.annotations.SetRootClass;
  * will be scanned.
  */
 @ExtendWith(TFrameworkExtension.class)
-@SetRootClass(
+@RootClassSettings(
         useTestClassAsRoot = true,
         findRootClassOnClasspath = false
 )
@@ -30,5 +30,5 @@ import org.tframework.test.commons.annotations.SetRootClass;
 @TFrameworkRootClass
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IsolatedTFrameworkJunit5Test {
+public @interface IsolatedTFrameworkTest {
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import org.tframework.core.TFrameworkRootClass;
 import org.tframework.test.commons.TestConfig;
-import org.tframework.test.commons.annotations.SetRootClass;
+import org.tframework.test.commons.annotations.RootClassSettings;
 
 /**
  * This class is responsible for finding the root class of the test application,
@@ -28,7 +28,7 @@ public class RootClassFinder {
             return testConfig.testClass();
         }
 
-        if(!testConfig.rootClass().equals(SetRootClass.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED)) {
+        if(!testConfig.rootClass().equals(RootClassSettings.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED)) {
             //root class was directly specified, so let's use that
             return testConfig.rootClass();
         } else {
@@ -77,7 +77,7 @@ public class RootClassFinder {
 
     private boolean noRootClassConfigProvided(TestConfig testConfig) {
         return !testConfig.useTestClassAsRoot() && !testConfig.findRootClassOnClasspath() &&
-                testConfig.rootClass().equals(SetRootClass.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED);
+                testConfig.rootClass().equals(RootClassSettings.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED);
     }
 
 }

@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SetRootClass {
+public @interface RootClassSettings {
 
     Class<?> ROOT_CLASS_NOT_DIRECTLY_SPECIFIED = Void.class;
 

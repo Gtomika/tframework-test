@@ -10,15 +10,15 @@ import org.tframework.core.Application;
 import org.tframework.core.elements.annotations.Element;
 import org.tframework.core.elements.annotations.InjectElement;
 import org.tframework.test.commons.annotations.ElementSettings;
+import org.tframework.test.commons.annotations.RootClassSettings;
 import org.tframework.test.commons.annotations.SetApplicationName;
 import org.tframework.test.commons.annotations.SetProfiles;
 import org.tframework.test.commons.annotations.SetProperties;
-import org.tframework.test.commons.annotations.SetRootClass;
 
 @SetProfiles("test")
 @SetProperties("cool.prop=123")
 @SetApplicationName("myCoolTestApp")
-@SetRootClass(rootClass = DummyRootClass.class)
+@RootClassSettings(rootClass = DummyRootClass.class)
 @ElementSettings(
         rootScanningEnabled = true,
         rootHierarchyScanningEnabled = false,
@@ -26,7 +26,7 @@ import org.tframework.test.commons.annotations.SetRootClass;
 )
 @Element
 @ExtendWith(TFrameworkExtension.class)
-public class TFrameworkExtensionTest {
+public class TFrameworkExtensionDeclarativeTest {
 
     @Test
     public void shouldRun(@InjectElement Application application) {
