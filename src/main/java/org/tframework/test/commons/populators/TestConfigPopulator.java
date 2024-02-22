@@ -9,7 +9,8 @@ import org.tframework.test.commons.TestConfig;
 public interface TestConfigPopulator {
 
     /**
-     * Inspects the test class and set the results into the {@link TestConfig} builder.
+     * Inspects the test class and sets the results into the {@link TestConfig} builder.
+     * Implementations should be mindful of the already existing values in the config.
      */
    void populateConfig(TestConfig.TestConfigBuilder configBuilder, Class<?> testClass);
 
