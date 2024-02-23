@@ -9,7 +9,7 @@ import org.tframework.core.reflection.annotations.AnnotationScanner;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class IsElementTestClassValidator implements TestClassValidator {
 
-    private static final String TEST_CLASS_NOT_ELEMENT_ERROR = "The test class '%s' should be marked with '" +
+    static final String TEST_CLASS_NOT_ELEMENT_ERROR = "The test class '%s' should be marked with '" +
             Element.class.getName() + "'";
 
     private final AnnotationScanner annotationScanner;
