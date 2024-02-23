@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.tframework.core.elements.annotations.Element;
@@ -21,12 +21,8 @@ public class IsElementTestClassValidatorTest {
     @Mock
     private AnnotationScanner annotationScanner;
 
+    @InjectMocks
     private IsElementTestClassValidator validator;
-
-    @BeforeEach
-    void setUp() {
-        validator = new IsElementTestClassValidator(annotationScanner);
-    }
 
     @Test
     public void shouldAcceptTestClass_whenItIsAnElement() {

@@ -8,6 +8,8 @@ import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 public class TestClassElementMarkerTestConfigApplier implements TestConfigApplier {
 
+    static final String TEST_CLASS_NOT_PROVIDED_MESSAGE = "The test class must be provided in the configuration";
+
     private final SystemPropertyHelper systemPropertyHelper;
     private final String extensionName;
 
@@ -18,6 +20,9 @@ public class TestClassElementMarkerTestConfigApplier implements TestConfigApplie
 
     @Override
     public void applyTestConfig(TestConfig testConfig) {
+        if(testConfig.testClass() == null) {
+            throw new IllegalStateException(TEST_CLASS_NOT_PROVIDED_MESSAGE);
+        }
         String scanTestClassProperty = ClassesElementClassScanner.SCAN_CLASSES_PROPERTY + "-" + extensionName + "-test-class";
         systemPropertyHelper.setFrameworkPropertyIntoSystemProperties(
                 scanTestClassProperty,

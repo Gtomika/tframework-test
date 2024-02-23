@@ -19,7 +19,7 @@ public class ProfilesTestConfigApplier implements TestConfigApplier {
 
     @Override
     public void applyTestConfig(TestConfig testConfig) {
-        if(!testConfig.profiles().isEmpty()) {
+        if(testConfig.profiles() != null && !testConfig.profiles().isEmpty()) {
             log.debug("The following profiles will be set for the test application {}", testConfig.profiles());
 
             String profilesJoined = String.join(",", testConfig.profiles());

@@ -16,9 +16,11 @@ public class PropertiesTestConfigApplier implements TestConfigApplier {
 
     @Override
     public void applyTestConfig(TestConfig testConfig) {
-        testConfig.properties().forEach(rawProperty -> {
-            log.debug("Setting property for the test application: '{}'", rawProperty);
-            systemPropertyHelper.setRawFrameworkPropertyIntoSystemProperties(rawProperty);
-        });
+        if(testConfig.properties() != null) {
+            testConfig.properties().forEach(rawProperty -> {
+                log.debug("Setting property for the test application: '{}'", rawProperty);
+                systemPropertyHelper.setRawFrameworkPropertyIntoSystemProperties(rawProperty);
+            });
+        }
     }
 }

@@ -4,9 +4,9 @@ package org.tframework.test.commons.populators;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
@@ -20,12 +20,8 @@ public class InitializationFailureTestConfigPopulatorTest {
     @Mock
     private AnnotationScanner annotationScanner;
 
+    @InjectMocks
     private InitializationFailureTestConfigPopulator populator;
-
-    @BeforeEach
-    public void setUp() {
-        populator = new InitializationFailureTestConfigPopulator(annotationScanner);
-    }
 
     @Test
     public void shouldPopulateConfig_overridingExistingValue_whenAnnotationPresent() {
