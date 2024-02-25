@@ -161,7 +161,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
 
         launchResult = launcher.launchTestApplication(testConfig);
         if(launchResult instanceof SuccessfulLaunchResult successfulLaunchResult) {
-            testClassElementContext = successfulLaunchResult.getTestApplicationElementContext(testClass);
+            testClassElementContext = successfulLaunchResult.testClassElementContext().orElse(null);
         }
     }
 

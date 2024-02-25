@@ -20,7 +20,7 @@ public final class TestActionsUtils {
             String names = predicateExecutors.stream()
                     .map(PredicateExecutor::name)
                     .collect(Collectors.joining(", "));
-            throw new IllegalArgumentException("Exactly one of these must be true: " + names);
+            throw new IllegalStateException("Exactly one of these must be true: " + names);
         }
 
         var executor = predicateExecutors.stream()

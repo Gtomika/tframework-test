@@ -1,6 +1,10 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.utils;
 
+import static org.tframework.core.properties.parsers.PropertyParsingUtils.LIST_BEGIN_CHARACTER;
+import static org.tframework.core.properties.parsers.PropertyParsingUtils.LIST_ELEMENT_SEPARATOR_CHARACTER;
+import static org.tframework.core.properties.parsers.PropertyParsingUtils.LIST_END_CHARACTER;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +18,11 @@ import org.tframework.core.properties.scanners.SystemPropertyScanner;
  */
 public class SystemPropertyHelper {
 
-    private final Set<String> systemPropertiesInUse = new HashSet<>();
+    private final Set<String> systemPropertiesInUse;
+
+    public SystemPropertyHelper() {
+        this.systemPropertiesInUse = new HashSet<>();
+    }
 
     /**
      * Set a general system property.
@@ -38,9 +46,9 @@ public class SystemPropertyHelper {
      * picked up the {@link SystemPropertyScanner}.
      */
     public void setFrameworkPropertyIntoSystemProperties(String name, List<String> values) {
-        String value = PropertyParsingUtils.LIST_BEGIN_CHARACTER +
-                String.join(PropertyParsingUtils.LIST_ELEMENT_SEPARATOR_CHARACTER, values) +
-                PropertyParsingUtils.LIST_END_CHARACTER;
+        String value = LIST_BEGIN_CHARACTER +
+                String.join(LIST_ELEMENT_SEPARATOR_CHARACTER, values) +
+                LIST_END_CHARACTER;
         setFrameworkPropertyIntoSystemProperties(name, value);
     }
 
@@ -60,4 +68,7 @@ public class SystemPropertyHelper {
         systemPropertiesInUse.clear();
     }
 
+    public Set<String> getSystemPropertiesInUse() {
+        return Set.copyOf(systemPropertiesInUse);
+    }
 }

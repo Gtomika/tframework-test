@@ -9,8 +9,9 @@ import org.tframework.test.commons.utils.RootClassFinder;
 public final class TestApplicationLauncherFactory {
 
     public static TestApplicationLauncher createTestApplicationLauncher() {
-        var rootClassFinder = new RootClassFinder();
-        return new TestApplicationLauncher(rootClassFinder);
+        var rootClassFinder = RootClassFinder.createDefaultRootClassFinder();
+        var appLauncher = new TestApplicationLauncher.AppLauncher();
+        return new TestApplicationLauncher(rootClassFinder, appLauncher);
     }
 
 }

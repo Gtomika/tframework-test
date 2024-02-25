@@ -21,13 +21,20 @@ import org.tframework.core.profiles.scanners.DefaultProfileScanner;
 public final class TframeworkAssertions {
 
     /**
-     * Assert that the application has exactly the provided profiles, and the
+     * Assert that the {@link ProfilesContainer} has the provided profiles, plus the
      * {@link DefaultProfileScanner#DEFAULT_PROFILE_NAME}.
      */
-    public static void assertHasNonDefaultProfilesExactly(ProfilesContainer profilesContainer, Set<String> nonDefaultProfiles) {
-        var expectedProfiles = new HashSet<>(nonDefaultProfiles);
+    public static void assertHasNonDefaultProfiles(ProfilesContainer profilesContainer, Set<String> expectedNonDefaultProfiles) {
+        var expectedProfiles = new HashSet<>(expectedNonDefaultProfiles);
         expectedProfiles.add(DefaultProfileScanner.DEFAULT_PROFILE_NAME);
 
+        assertEquals(expectedProfiles, profilesContainer.profiles());
+    }
+
+    /**
+     * Assert that the {@link ProfilesContainer} has the given profiles.
+     */
+    public static void assertHasProfiles(ProfilesContainer profilesContainer, Set<String> expectedProfiles) {
         assertEquals(expectedProfiles, profilesContainer.profiles());
     }
 
