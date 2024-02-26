@@ -22,10 +22,10 @@ There is support for JUnit 5 with an extension that is customizable with annotat
 
 ## Launch your application in tests
 
-You may use `@ExtendWith(TFrameworkExtension)` directly, however, there are some quirks that must be followed. To spare 
+You may use `@ExtendWith(TFrameworkExtension)` directly, however, there are some quirks that must be followed. To spare
 yourself of these, it's recommended to use either `@TFrameworkTest` or `@IsolatedTFrameworkTest`.
 
-To start your TFramework application for testing, use `@TFrameworkTest` on the test class. This will look up your 
+To start your TFramework application for testing, use `@TFrameworkTest` on the test class. This will look up your
 app from the classpath, launch it before the tests, and close it after all tests are completed.
 
 ```java
@@ -44,15 +44,15 @@ The example above also shows a few other things:
 
 - Customization options via annotations such as `SetProfiles`. For all options, check the
 [annotations package](./src/main/java/org/tframework/test/commons/annotations).
-- Injecting elements and properties is possible into the test methods. In the example above, the `Application` 
+- Injecting elements and properties is possible into the test methods. In the example above, the `Application`
 element was injected, and asserted on.
 
-You may also use programmatic extension activation with JUnit5's `@RegisterExtension` annotation. An example can be 
+You may also use programmatic extension activation with JUnit5's `@RegisterExtension` annotation. An example can be
 seen in [this file](./src/test/java/org/tframework/test/junit5/TFrameworkExtensionProgrammaticTest.java).
 
 ## Use the application in tests
 
-After the application is up and running in the tests, there are several ways to access its elements and properties. If 
+After the application is up and running in the tests, there are several ways to access its elements and properties. If
 your test cases require some elements/properties, these can be injected into the `@Test`, `@BeforeEach` and `@AfterEach` methods:
 
 ```java
@@ -69,7 +69,7 @@ public class TframeworkTestAnnotationTest {
 }
 ```
 
-**Additionally, the test class itself will be an element.** So any elements can be constructor or 
+**Additionally, the test class itself will be an element.** So any elements can be constructor or
 field injected into it:
 
 ```java

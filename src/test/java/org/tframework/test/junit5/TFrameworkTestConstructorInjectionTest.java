@@ -1,7 +1,7 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.junit5;
 
 import org.junit.jupiter.api.Test;
-import org.tframework.core.Application;
 import org.tframework.core.properties.PropertiesContainer;
 import org.tframework.test.commons.annotations.SetProperties;
 import org.tframework.test.commons.utils.TframeworkAssertions;
