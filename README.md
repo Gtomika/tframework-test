@@ -22,7 +22,7 @@ There is support for JUnit 5 with an extension that is customizable with annotat
 
 ## Launch your application in tests
 
-You may use `@ExtendWith(TFrameworkExtension)` directly, however, there are some quirks that must be followed. To spare
+You may use `@ExtendWith(TFrameworkExtension.class)` directly, however, there are some quirks that must be followed. To spare
 yourself of these, it's recommended to use either `@TFrameworkTest` or `@IsolatedTFrameworkTest`.
 
 To start your TFramework application for testing, use `@TFrameworkTest` on the test class. This will look up your
@@ -30,7 +30,7 @@ app from the classpath, launch it before the tests, and close it after all tests
 
 ```java
 @SetProfiles("test")
-@TFrameworkTest //contains @ExtendWith(TFrameworkExtension) and useful configurations
+@TFrameworkTest //contains @ExtendWith(TFrameworkExtension.class) and useful configurations
 public class TframeworkTestAnnotationTest {
 
     @Test
