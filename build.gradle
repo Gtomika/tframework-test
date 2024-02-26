@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.github.gtomika'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 ext {
     //TODO: update to a stable version
@@ -26,13 +26,15 @@ repositories {
 }
 
 dependencies {
-    implementation "com.github.gtomika:tframework-core:${tfarmeworkCoreVersion}"
+    compileOnly "com.github.gtomika:tframework-core:${tfarmeworkCoreVersion}"
 
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     implementation "io.github.classgraph:classgraph:${classGraphVersion}"
 
     // needed as actual implementation
     implementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+
+    testImplementation "com.github.gtomika:tframework-core:${tfarmeworkCoreVersion}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}"

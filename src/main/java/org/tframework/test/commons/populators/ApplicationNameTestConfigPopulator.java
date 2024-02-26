@@ -1,0 +1,33 @@
+/* Licensed under Apache-2.0 2024. */
+package org.tframework.test.commons.populators;
+
+import lombok.extern.slf4j.Slf4j;
+import org.tframework.core.reflection.annotations.AnnotationScanner;
+import org.tframework.test.commons.TestConfig;
+import org.tframework.test.commons.annotations.SetApplicationName;
+
+@Slf4j
+public class ApplicationNameTestConfigPopulator implements TestConfigPopulator {
+
+    private final AnnotationScanner annotationScanner;
+
+    ApplicationNameTestConfigPopulator(AnnotationScanner annotationScanner) {
+        this.annotationScanner = annotationScanner;
+    }
+
+    @Override
+    public void populateConfig(TestConfig.TestConfigBuilder configBuilder, Class<?> testClass) {
+        String applicationName = annotationScanner.scanOneStrict(testClass, SetApplicationName.class)
+                .map(SetApplicationName::value)
+                .orElse(applicationNameFromConfigOrDefault(configBuilder.build(), testClass));
+        configBuilder.applicationName(applicationName);
+    }
+
+    private String applicationNameFromConfigOrDefault(TestConfig testConfig, Class<?> testClass) {
+        if(testConfig.applicationName() != null) {
+            return testConfig.applicationName();
+        } else {
+            return testClass.getName();
+        }
+    }
+}
