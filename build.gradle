@@ -5,7 +5,7 @@ plugins {
     id "io.freefair.lombok" version "8.4"
 }
 
-group = 'com.github.gtomika'
+group = 'com.github.Gtomika'
 version = '0.0.1'
 
 ext {
@@ -18,6 +18,11 @@ ext {
     log4jVersion = "2.17.2"
 }
 
+//TODO: remove when version is fixed
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 repositories {
     mavenCentral()
     maven {
@@ -25,8 +30,21 @@ repositories {
     }
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
 dependencies {
-    compileOnly "com.github.gtomika:tframework-core:${tfarmeworkCoreVersion}"
+    compileOnly "com.github.Gtomika:tframework-core:${tfarmeworkCoreVersion}"
 
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     implementation "io.github.classgraph:classgraph:${classGraphVersion}"
@@ -34,7 +52,7 @@ dependencies {
     // needed as actual implementation
     implementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
 
-    testImplementation "com.github.gtomika:tframework-core:${tfarmeworkCoreVersion}"
+    testImplementation "com.github.Gtomika:tframework-core:${tfarmeworkCoreVersion}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}"
