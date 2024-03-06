@@ -48,7 +48,8 @@ public record TestConfig(
          boolean useTestClassAsRoot,
          boolean findRootClassOnClasspath,
          Class<?> rootClass,
-         Class<?> testClass
+         Class<?> testClass,
+         List<? extends Runnable> beforeFrameworkCallbacks
 ) {
 
 }

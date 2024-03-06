@@ -15,13 +15,13 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 @ExtendWith(MockitoExtension.class)
-public class PropertiesTestConfigApplierTest {
+public class PropertiesApplierTest {
 
     @Mock
     private SystemPropertyHelper systemPropertyHelper;
 
     @InjectMocks
-    private PropertiesTestConfigApplier applier;
+    private PropertiesTestApplier applier;
 
     @Test
     public void shouldApplyConfig_whenPropertiesPresent() {

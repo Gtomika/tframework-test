@@ -12,13 +12,14 @@ public final class TestConfigPopulatorsFactory {
     public static TestConfigPopulatorsBundle createTestConfigPopulators() {
         var annotationScanner = AnnotationScannersFactory.createComposedAnnotationScanner();
         var populators = List.of(
-            new ApplicationNameTestConfigPopulator(annotationScanner),
-            new CommandLineArgumentsTestConfigPopulator(annotationScanner),
-            new ElementSettingsTestConfigPopulator(annotationScanner),
-            new InitializationFailureTestConfigPopulator(annotationScanner),
-            new ProfilesTestConfigPopulator(annotationScanner),
-            new PropertiesTestConfigPopulator(annotationScanner),
-            new RootClassTestConfigPopulator(annotationScanner)
+                new ApplicationNamePopulator(annotationScanner),
+                new CommandLineArgumentsPopulator(annotationScanner),
+                new ElementSettingsPopulator(annotationScanner),
+                new InitializationFailurePopulator(annotationScanner),
+                new ProfilesPopulator(annotationScanner),
+                new PropertiesPopulator(annotationScanner),
+                new RootClassPopulator(annotationScanner),
+                new BeforeFrameworkInitializationPopulator(annotationScanner)
         );
         return new TestConfigPopulatorsBundle(populators);
     }

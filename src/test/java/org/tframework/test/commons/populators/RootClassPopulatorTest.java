@@ -18,18 +18,18 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.RootClassSettings;
 
 @RootClassSettings(
-        rootClass = RootClassTestConfigPopulatorTest.class,
+        rootClass = RootClassPopulatorTest.class,
         findRootClassOnClasspath = true,
         useTestClassAsRoot = true
 )
 @ExtendWith(MockitoExtension.class)
-public class RootClassTestConfigPopulatorTest {
+public class RootClassPopulatorTest {
 
     @Mock
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private RootClassTestConfigPopulator populator;
+    private RootClassPopulator populator;
 
     @Test
     public void shouldPopulateConfig_overridingExistingValues_whenAnnotationPresent() {

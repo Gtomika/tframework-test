@@ -17,13 +17,13 @@ import org.tframework.test.commons.annotations.SetProperties;
 
 @SetProperties({"a", "b"})
 @ExtendWith(MockitoExtension.class)
-public class PropertiesTestConfigPopulatorTest {
+public class PropertiesPopulatorTest {
 
     @Mock
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private PropertiesTestConfigPopulator populator;
+    private PropertiesPopulator populator;
 
     @Test
     public void shouldPopulateConfig_keepingExistingValues_whenAnnotationPresent() {

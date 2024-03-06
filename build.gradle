@@ -44,15 +44,14 @@ publishing {
 }
 
 dependencies {
-    compileOnly "com.github.Gtomika:tframework-core:${tfarmeworkCoreVersion}"
-
-    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-    implementation "io.github.classgraph:classgraph:${classGraphVersion}"
-
-    // needed as actual implementation
+    compileOnly "com.github.Gtomika:tframework-core:${tfarmeworkCoreVersion}" //user is expected to have this at runtime
+    compileOnly "org.slf4j:slf4j-api:${slf4jVersion}" //tframework-core provides it at runtime
+    compileOnly "io.github.classgraph:classgraph:${classGraphVersion}" //tframework-core provides it at runtime
     implementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
 
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
     testImplementation "com.github.Gtomika:tframework-core:${tfarmeworkCoreVersion}"
+    testImplementation "io.github.classgraph:classgraph:${classGraphVersion}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}"

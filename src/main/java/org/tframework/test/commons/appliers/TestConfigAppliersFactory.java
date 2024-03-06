@@ -17,10 +17,11 @@ public final class TestConfigAppliersFactory {
     public static TestConfigAppliersBundle createTestConfigAppliers(String extensionName) {
         var systemPropertyHelper = new SystemPropertyHelper();
         var appliers = List.of(
-                new TestClassElementMarkerTestConfigApplier(systemPropertyHelper, extensionName),
-                new ProfilesTestConfigApplier(systemPropertyHelper, extensionName),
-                new PropertiesTestConfigApplier(systemPropertyHelper),
-                new ElementSettingsConfigApplier(systemPropertyHelper)
+                new TestClassElementMarkerTestApplier(systemPropertyHelper, extensionName),
+                new ProfilesTestApplier(systemPropertyHelper, extensionName),
+                new PropertiesTestApplier(systemPropertyHelper),
+                new ElementSettingsApplier(systemPropertyHelper),
+                new BeforeFrameworkInitializationApplier()
         );
         return new TestConfigAppliersBundle(systemPropertyHelper, appliers);
     }

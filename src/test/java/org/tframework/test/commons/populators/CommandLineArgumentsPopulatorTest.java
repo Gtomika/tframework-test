@@ -17,13 +17,13 @@ import org.tframework.test.commons.annotations.SetCommandLineArguments;
 
 @SetCommandLineArguments({"a", "b"})
 @ExtendWith(MockitoExtension.class)
-public class CommandLineArgumentsTestConfigPopulatorTest {
+public class CommandLineArgumentsPopulatorTest {
 
     @Mock
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private CommandLineArgumentsTestConfigPopulator populator;
+    private CommandLineArgumentsPopulator populator;
 
     @Test
     public void shouldPopulateArguments_keepingExistingValues_whenAnnotationPresent() {

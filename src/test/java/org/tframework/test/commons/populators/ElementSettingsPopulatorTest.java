@@ -21,13 +21,13 @@ import org.tframework.test.commons.annotations.ElementSettings;
         internalScanningEnabled = false
 )
 @ExtendWith(MockitoExtension.class)
-public class ElementSettingsTestConfigPopulatorTest {
+public class ElementSettingsPopulatorTest {
 
     @Mock
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private ElementSettingsTestConfigPopulator populator;
+    private ElementSettingsPopulator populator;
 
     @Test
     public void shouldPopulateElementSettings_overridingExistingValues_whenAnnotationPresent() {
