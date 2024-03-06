@@ -35,7 +35,10 @@ public class TestApplicationLauncher {
      * exception is thrown.
      */
     public LaunchResult launchTestApplication(TestConfig testConfig) throws Exception {
+        log.debug("Attempting to launch test application with the following config: {}", testConfig);
         var launchResult = launchTestApplicationInternal(testConfig);
+        log.debug("The test application launch finished. Result: {}", launchResult);
+
         checkUnexpectedApplicationState(testConfig.expectInitializationFailure(), launchResult);
         return launchResult;
     }
@@ -43,7 +46,17 @@ public class TestApplicationLauncher {
     private LaunchResult launchTestApplicationInternal(TestConfig testConfig) {
         var rootClass = rootClassFinder.findRootClass(testConfig);
         try {
+            log.info("""
+                    \n-------------------------------------------------------------------
+                    Launching application '{}' for tests.
+                    -------------------------------------------------------------------
+                    """, testConfig.applicationName());
             var application = appLauncher.startApp(testConfig, rootClass);
+            log.info("""
+                    \n-------------------------------------------------------------------
+                    Launching of app '{}' finished. Retuning control to the test application launcher.
+                    -------------------------------------------------------------------
+                    """, testConfig.applicationName());
 
             //these resolvers can be used to inject parameters into test methods
             var dependencyResolver = DependencyResolverAggregator.usingResolvers(List.of(

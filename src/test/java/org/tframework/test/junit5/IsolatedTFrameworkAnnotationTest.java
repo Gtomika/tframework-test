@@ -30,7 +30,9 @@ public class IsolatedTFrameworkAnnotationTest {
     @Element
     public static class SomeElement {}
 
-    static class CustomInit implements Runnable {
+    public static class CustomInit implements Runnable {
+
+        public CustomInit() {}
 
         @Override
         public void run() {
