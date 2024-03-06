@@ -1,13 +1,12 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.populators;
 
+import java.lang.reflect.InvocationTargetException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.BeforeFrameworkInitialization;
-
-import java.lang.reflect.InvocationTargetException;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class BeforeFrameworkInitializationPopulator implements TestConfigPopulator {
