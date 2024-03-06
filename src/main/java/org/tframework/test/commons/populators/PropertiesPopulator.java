@@ -4,17 +4,16 @@ package org.tframework.test.commons.populators;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.SetProperties;
 
-public class PropertiesTestConfigPopulator implements TestConfigPopulator {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class PropertiesPopulator implements TestConfigPopulator {
 
     private final AnnotationScanner annotationScanner;
-
-    PropertiesTestConfigPopulator(AnnotationScanner annotationScanner) {
-        this.annotationScanner = annotationScanner;
-    }
 
     @Override
     public void populateConfig(TestConfig.TestConfigBuilder configBuilder, Class<?> testClass) {

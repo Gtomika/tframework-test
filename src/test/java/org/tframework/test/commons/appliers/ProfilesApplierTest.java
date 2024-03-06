@@ -19,18 +19,18 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 @ExtendWith(MockitoExtension.class)
-public class ProfilesTestConfigApplierTest {
+public class ProfilesApplierTest {
 
     private static final String EXTENSION_NAME = "test";
 
     @Mock
     private SystemPropertyHelper systemPropertyHelper;
 
-    private ProfilesTestConfigApplier applier;
+    private ProfilesTestApplier applier;
 
     @BeforeEach
     void setUp() {
-        applier = new ProfilesTestConfigApplier(systemPropertyHelper, EXTENSION_NAME);
+        applier = new ProfilesTestApplier(systemPropertyHelper, EXTENSION_NAME);
     }
 
     @Test

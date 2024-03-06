@@ -14,9 +14,9 @@ import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.SetApplicationName;
 
-@SetApplicationName(ApplicationNameTestConfigPopulatorTest.TEST_NAME)
+@SetApplicationName(ApplicationNamePopulatorTest.TEST_NAME)
 @ExtendWith(MockitoExtension.class)
-public class ApplicationNameTestConfigPopulatorTest {
+public class ApplicationNamePopulatorTest {
 
     public static final String TEST_NAME = "test-app";
 
@@ -24,7 +24,7 @@ public class ApplicationNameTestConfigPopulatorTest {
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private ApplicationNameTestConfigPopulator populator;
+    private ApplicationNamePopulator populator;
 
     @Test
     public void shouldPopulateConfig_whenAnnotationPresent() {

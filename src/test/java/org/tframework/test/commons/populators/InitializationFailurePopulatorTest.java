@@ -15,13 +15,13 @@ import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 
 @ExpectInitializationFailure
 @ExtendWith(MockitoExtension.class)
-public class InitializationFailureTestConfigPopulatorTest {
+public class InitializationFailurePopulatorTest {
 
     @Mock
     private AnnotationScanner annotationScanner;
 
     @InjectMocks
-    private InitializationFailureTestConfigPopulator populator;
+    private InitializationFailurePopulator populator;
 
     @Test
     public void shouldPopulateConfig_overridingExistingValue_whenAnnotationPresent() {

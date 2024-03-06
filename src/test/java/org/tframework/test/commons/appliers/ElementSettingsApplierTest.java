@@ -15,13 +15,13 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 @ExtendWith(MockitoExtension.class)
-public class ElementSettingsConfigApplierTest {
+public class ElementSettingsApplierTest {
 
     @Mock
     private SystemPropertyHelper systemPropertyHelper;
 
     @InjectMocks
-    private ElementSettingsConfigApplier applier;
+    private ElementSettingsApplier applier;
 
     @Test
     public void shouldApplyConfig() {

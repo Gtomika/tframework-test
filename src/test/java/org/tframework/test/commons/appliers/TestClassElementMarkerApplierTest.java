@@ -17,18 +17,18 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 @ExtendWith(MockitoExtension.class)
-public class TestClassElementMarkerTestConfigApplierTest {
+public class TestClassElementMarkerApplierTest {
 
     private static final String EXTENSION_NAME = "test";
 
     @Mock
     private SystemPropertyHelper systemPropertyHelper;
 
-    private TestClassElementMarkerTestConfigApplier applier;
+    private TestClassElementMarkerTestApplier applier;
 
     @BeforeEach
     void setUp() {
-        applier = new TestClassElementMarkerTestConfigApplier(systemPropertyHelper, EXTENSION_NAME);
+        applier = new TestClassElementMarkerTestApplier(systemPropertyHelper, EXTENSION_NAME);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TestClassElementMarkerTestConfigApplierTest {
         var exception = assertThrows(IllegalStateException.class, () -> applier.applyTestConfig(config));
 
         assertEquals(
-                TestClassElementMarkerTestConfigApplier.TEST_CLASS_NOT_PROVIDED_MESSAGE,
+                TestClassElementMarkerTestApplier.TEST_CLASS_NOT_PROVIDED_MESSAGE,
                 exception.getMessage()
         );
     }

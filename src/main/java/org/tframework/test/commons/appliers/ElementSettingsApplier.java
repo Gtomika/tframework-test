@@ -1,6 +1,7 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.appliers;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.tframework.core.elements.scanner.InternalElementClassScanner;
 import org.tframework.core.elements.scanner.RootElementClassScanner;
@@ -8,13 +9,10 @@ import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
 @Slf4j
-public class ElementSettingsConfigApplier implements TestConfigApplier {
+@RequiredArgsConstructor
+public class ElementSettingsApplier implements TestConfigApplier {
 
     private final SystemPropertyHelper systemPropertyHelper;
-
-    ElementSettingsConfigApplier(SystemPropertyHelper systemPropertyHelper) {
-        this.systemPropertyHelper = systemPropertyHelper;
-    }
 
     @Override
     public void applyTestConfig(TestConfig testConfig) {

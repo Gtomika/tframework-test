@@ -2,21 +2,20 @@
 package org.tframework.test.commons.appliers;
 
 import java.util.List;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.tframework.core.elements.scanner.ClassesElementClassScanner;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.utils.SystemPropertyHelper;
 
-public class TestClassElementMarkerTestConfigApplier implements TestConfigApplier {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class TestClassElementMarkerTestApplier implements TestConfigApplier {
 
     static final String TEST_CLASS_NOT_PROVIDED_MESSAGE = "The test class must be provided in the configuration";
 
     private final SystemPropertyHelper systemPropertyHelper;
     private final String extensionName;
-
-    TestClassElementMarkerTestConfigApplier(SystemPropertyHelper systemPropertyHelper, String extensionName) {
-        this.systemPropertyHelper = systemPropertyHelper;
-        this.extensionName = extensionName;
-    }
 
     @Override
     public void applyTestConfig(TestConfig testConfig) {

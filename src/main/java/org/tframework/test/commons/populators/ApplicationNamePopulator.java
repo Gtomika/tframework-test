@@ -1,19 +1,16 @@
 /* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.populators;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.TestConfig;
 import org.tframework.test.commons.annotations.SetApplicationName;
 
-@Slf4j
-public class ApplicationNameTestConfigPopulator implements TestConfigPopulator {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class ApplicationNamePopulator implements TestConfigPopulator {
 
     private final AnnotationScanner annotationScanner;
-
-    ApplicationNameTestConfigPopulator(AnnotationScanner annotationScanner) {
-        this.annotationScanner = annotationScanner;
-    }
 
     @Override
     public void populateConfig(TestConfig.TestConfigBuilder configBuilder, Class<?> testClass) {
