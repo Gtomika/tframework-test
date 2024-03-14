@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Set;
 import lombok.Builder;
 import org.tframework.core.TFrameworkRootClass;
+import org.tframework.core.elements.PreConstructedElementData;
 import org.tframework.core.properties.parsers.PropertyParsingUtils;
 import org.tframework.test.commons.annotations.InjectInitializationException;
+import org.tframework.test.junit5.TFrameworkExtension;
 
 /**
  * All the configurations that can be used to customize the frameworks
@@ -33,6 +35,9 @@ import org.tframework.test.commons.annotations.InjectInitializationException;
  * @param rootClass Configure the test application's root class explicitly. Not provided by default.
  *          Mutually exclusive with {@link #useTestClassAsRoot} and {@link #findRootClassOnClasspath}.
  * @param testClass The class from which the test is running.
+ * @param beforeFrameworkCallbacks A list of {@link Runnable}s that should be invoked before the framework is started.
+ * @param preConstructedElements A set of {@link PreConstructedElementData} about existing objects that should
+ *                               be added as elements to the test application.
  *
  */
 @Builder(toBuilder = true)
@@ -49,7 +54,16 @@ public record TestConfig(
          boolean findRootClassOnClasspath,
          Class<?> rootClass,
          Class<?> testClass,
-         List<? extends Runnable> beforeFrameworkCallbacks
+         List<? extends Runnable> beforeFrameworkCallbacks,
+         Set<PreConstructedElementData> preConstructedElements
 ) {
+
+    /**
+     * Create a {@link TFrameworkExtension} Junit5 extension using this test config.
+     * @return The created extension.
+     */
+    public TFrameworkExtension toJunit5Extension() {
+        return new TFrameworkExtension(this.toBuilder());
+    }
 
 }

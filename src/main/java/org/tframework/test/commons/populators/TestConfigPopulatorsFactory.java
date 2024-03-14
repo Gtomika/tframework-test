@@ -19,7 +19,8 @@ public final class TestConfigPopulatorsFactory {
                 new ProfilesPopulator(annotationScanner),
                 new PropertiesPopulator(annotationScanner),
                 new RootClassPopulator(annotationScanner),
-                new BeforeFrameworkInitializationPopulator(annotationScanner)
+                new BeforeFrameworkInitializationPopulator(annotationScanner),
+                new PreConstructedElementsPopulator()
         );
         return new TestConfigPopulatorsBundle(populators);
     }

@@ -99,7 +99,8 @@ public class TestApplicationLauncher {
             return TFramework.start(
                     testConfig.applicationName(),
                     rootClass,
-                    testConfig.commandLineArguments().toArray(new String[0])
+                    testConfig.commandLineArguments().toArray(new String[0]),
+                    testConfig.preConstructedElements()
             );
         }
 

@@ -75,7 +75,7 @@ import org.tframework.test.commons.validators.TestClassValidatorsFactory;
  *
  * <br><br><strong>Configuring the application programmatically</strong><br><br>
  * This extension may be activated as a static field in the test class, which is marked with {@link RegisterExtension}.
- * In this case, the various configurations can be provided in the constructor. See {@link TestConfig}.
+ * In this case, the various configurations can be provided with a builder. See {@link TestConfig}.
  *
  * <br><br>
  * The above example can be also specified this way:
@@ -84,9 +84,10 @@ import org.tframework.test.commons.validators.TestClassValidatorsFactory;
  * public class MyTest {
  *
  *      @RegisterExtension
- *      public static TFrameworkExtension tframeworkExtension = TFrameworkExtension.fromConfig(
- *          TestConfig.builder().profiles(Set.of("test")).build()
- *      );
+ *      public static TFrameworkExtension tframeworkExtension = TFrameworkExtension.tframeworkTest()
+ *                  .profiles(Set.of("test")
+ *                  .build()
+ *                  .toJunit5Extension();
  *
  *      @Test
  *      public void myTestCase(@InjectElement Application application) {
@@ -220,11 +221,46 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     }
 
     /**
-     * Create an extension from the specified {@link TestConfig}.
-     * @param testConfig The config to use.
+     * Creates a {@link TestConfig} builder that is equivalent to the {@link IsolatedTFrameworkTest} annotation.
+     * Example usage:
+     * <pre>{@code
+     * @RegisterExtension
+     * public static final TFrameworkExtension extension = TFrameworkExtension.isolatedTFrameworkTest()
+     *              .applicationName("myTestApp")
+     *              .profiles(Set.of("test"))
+     *              .build()
+     *              .toJunit5Extension();
+     * }</pre>
+     * @return The builder, ready for further customizations.
      */
-    public static TFrameworkExtension fromConfig(TestConfig testConfig) {
-        return new TFrameworkExtension(testConfig.toBuilder());
+    public static TestConfig.TestConfigBuilder isolatedTFrameworkTest() {
+        return TestConfig.builder()
+                .useTestClassAsRoot(true)
+                .findRootClassOnClasspath(false)
+                .rootScanningEnabled(true)
+                .rootHierarchyScanningEnabled(false)
+                .internalScanningEnabled(false);
     }
 
+    /**
+     * Creates a {@link TestConfig} builder that is equivalent to the {@link TFrameworkTest} annotation.
+     * Example usage:
+     * <pre>{@code
+     * @RegisterExtension
+     * public static final TFrameworkExtension extension = TFrameworkExtension.tframeworkTest()
+     *              .applicationName("myTestApp")
+     *              .profiles(Set.of("test"))
+     *              .build()
+     *              .toJunit5Extension();
+     * }</pre>
+     * @return The builder, ready for further customizations.
+     */
+    public static TestConfig.TestConfigBuilder tframeworkTest() {
+        return TestConfig.builder()
+                .useTestClassAsRoot(false)
+                .findRootClassOnClasspath(true)
+                .rootScanningEnabled(true)
+                .rootHierarchyScanningEnabled(true)
+                .internalScanningEnabled(true);
+    }
 }

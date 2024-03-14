@@ -2,7 +2,7 @@
 package org.tframework.test.junit5;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.tframework.test.commons.utils.TframeworkAssertions.assertHasElement;
 
 import org.junit.jupiter.api.Test;
 import org.tframework.core.Application;
@@ -18,7 +18,7 @@ public class TframeworkTestAnnotationTest {
         assertEquals("fullApp", application.getName());
         assertEquals(DummyRootClass.class, application.getRootClass());
 
-        assertTrue(application.getElementsContainer().hasElementContext(DummyRootClass.class));
+        assertHasElement(application.getElementsContainer(), DummyRootClass.class);
     }
 
 }
