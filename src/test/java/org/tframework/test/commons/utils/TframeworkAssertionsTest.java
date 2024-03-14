@@ -19,7 +19,7 @@ import org.tframework.core.initializers.InitializationException;
 import org.tframework.core.profiles.ProfilesContainer;
 import org.tframework.core.profiles.scanners.DefaultProfileScanner;
 import org.tframework.core.properties.ListPropertyValue;
-import org.tframework.core.properties.PropertiesContainer;
+import org.tframework.core.properties.PropertiesContainerFactory;
 import org.tframework.core.properties.Property;
 import org.tframework.core.properties.SinglePropertyValue;
 
@@ -61,7 +61,7 @@ public class TframeworkAssertionsTest {
     public void shouldAssertHasPropertyWithValueString() {
         var expectedValue = new SinglePropertyValue("test");
         var expectedProperty = new Property("cool.prop", expectedValue);
-        var container = PropertiesContainer.fromProperties(List.of(expectedProperty));
+        var container = PropertiesContainerFactory.fromProperties(List.of(expectedProperty));
 
         TframeworkAssertions.assertHasPropertyWithValue(container, "cool.prop", expectedValue.value());
         TframeworkAssertions.assertHasPropertyWithValue(container, "cool.prop", expectedValue);
@@ -72,7 +72,7 @@ public class TframeworkAssertionsTest {
     public void shouldAssertHasPropertyWithValueStringList() {
         var expectedValue = new ListPropertyValue(List.of("t1", "t2"));
         var expectedProperty =  new Property("cool.prop", expectedValue);
-        var container = PropertiesContainer.fromProperties(List.of(expectedProperty));
+        var container = PropertiesContainerFactory.fromProperties(List.of(expectedProperty));
 
         TframeworkAssertions.assertHasPropertyWithValue(container, "cool.prop", expectedValue.values());
         TframeworkAssertions.assertHasPropertyWithValue(container, "cool.prop", expectedValue);
@@ -82,7 +82,7 @@ public class TframeworkAssertionsTest {
     @Test
     public void shouldAssertHasNoProperty() {
         var expectedProperty =  new Property("cool.prop", new SinglePropertyValue("test"));
-        var container = PropertiesContainer.fromProperties(List.of(expectedProperty));
+        var container = PropertiesContainerFactory.fromProperties(List.of(expectedProperty));
 
         TframeworkAssertions.assertHasNoProperty(container,"not.cool.prop");
     }
