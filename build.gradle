@@ -3,24 +3,34 @@ plugins {
     id 'maven-publish'
     id "com.diffplug.spotless" version "6.23.3"
     id "io.freefair.lombok" version "8.4"
+    id 'me.qoomon.git-versioning' version "6.4.2"
 }
 
 group = 'com.github.Gtomika'
-version = '0.0.1'
+//git tag will be used as the version
+version '0.0.0-SNAPSHOT'
+
+gitVersioning.apply {
+    refs {
+        //if there is a tag like '0.1.2' pointing to current commit, it will be used as version
+        considerTagsOnBranches = true
+        tag('(?<version>.*)') {
+            version = '${ref.version}'
+        }
+        //otherwise, the branch name will be used to create a SNAPSHOT, such as 'master-SNAPSHOT'
+        branch('.+') {
+            version = '${ref}-SNAPSHOT'
+        }
+    }
+}
 
 ext {
-    //TODO: update to a stable version
-    tfarmeworkCoreVersion = "master-SNAPSHOT"
+    tfarmeworkCoreVersion = "v0.0.3"
     slf4jVersion = "1.7.25"
     classGraphVersion = "4.8.165"
     junitJupiterVersion = "5.8.2"
     mockitoVersion = "5.8.0"
     log4jVersion = "2.17.2"
-}
-
-//TODO: remove when version is fixed
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 repositories {
