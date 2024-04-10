@@ -1,3 +1,5 @@
+![CI pipeline badge](https://github.com/Gtomika/tframework-test/actions/workflows/ci-pipeline.yaml/badge.svg)
+
 # TFramework Test
 
 These are the testing tools of the [TFramework](https://github.com/Gtomika/tframework-core).
