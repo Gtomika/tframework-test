@@ -32,9 +32,7 @@ public class RootClassFinder {
         if(noRootClassConfigProvided(testConfig)) {
             return testConfig.testClass();
         }
-
-        if(!testConfig.rootClass().equals(RootClassSettings.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED)) {
-            //root class was directly specified, so let's use that
+        if(rootClassDirectlySpecified(testConfig)) {
             return testConfig.rootClass();
         } else {
             //root class was not specified, let's check the boolean fields
@@ -52,6 +50,13 @@ public class RootClassFinder {
                     )
             ));
         }
+    }
+
+    private boolean rootClassDirectlySpecified(TestConfig testConfig) {
+        //root class field is set
+        return testConfig.rootClass() != null &&
+                //and it is set to something other than the default value
+                !Objects.equals(testConfig.rootClass(), RootClassSettings.ROOT_CLASS_NOT_DIRECTLY_SPECIFIED);
     }
 
     private Class<?> findRootClassOnClasspath() {

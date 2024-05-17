@@ -239,7 +239,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                 .findRootClassOnClasspath(false)
                 .rootScanningEnabled(true)
                 .rootHierarchyScanningEnabled(false)
-                .internalScanningEnabled(false);
+                .internalScanningEnabled(true);
     }
 
     /**
