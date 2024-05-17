@@ -14,8 +14,9 @@ import org.tframework.test.commons.annotations.RootClassSettings;
  * A composed annotation of {@link TFrameworkExtension} and other configurations: this allows to
  * launch a small and contained TFramework application withing a given test class.
  * <p><br>
- * The root class of this application will be the test class. Only elements inside the test class
- * will be scanned.
+ * The root class of this application will be the test class. Elements inside the test class
+ * will be scanned. Internal elements will be scanned as well. However, no other packages
+ * and classes will be checked for elements.
  */
 @ExtendWith(TFrameworkExtension.class)
 @RootClassSettings(
@@ -25,7 +26,7 @@ import org.tframework.test.commons.annotations.RootClassSettings;
 @ElementSettings(
         rootScanningEnabled = true, //only the root class (which is the test class) will be scanned
         rootHierarchyScanningEnabled = false,
-        internalScanningEnabled = false
+        internalScanningEnabled = true
 )
 @TFrameworkRootClass
 @Target(ElementType.TYPE)
