@@ -23,8 +23,7 @@ import org.tframework.test.commons.annotations.RootClassSettings;
 )
 @ElementSettings(
         rootScanningEnabled = true,
-        rootHierarchyScanningEnabled = true,
-        internalScanningEnabled = true
+        rootHierarchyScanningEnabled = true
 )
 @Element(scope = ElementScope.SINGLETON)
 @Retention(RetentionPolicy.RUNTIME)

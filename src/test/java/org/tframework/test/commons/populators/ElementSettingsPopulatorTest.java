@@ -17,8 +17,7 @@ import org.tframework.test.commons.annotations.ElementSettings;
 
 @ElementSettings(
         rootScanningEnabled = false,
-        rootHierarchyScanningEnabled = false,
-        internalScanningEnabled = false
+        rootHierarchyScanningEnabled = false
 )
 @ExtendWith(MockitoExtension.class)
 public class ElementSettingsPopulatorTest {
@@ -36,14 +35,12 @@ public class ElementSettingsPopulatorTest {
 
         var configBuilder = TestConfig.builder()
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(true)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(true);
         populator.populateConfig(configBuilder, this.getClass());
 
         var config = configBuilder.build();
         assertFalse(config.rootScanningEnabled());
         assertFalse(config.rootHierarchyScanningEnabled());
-        assertFalse(config.internalScanningEnabled());
     }
 
     @Test
@@ -53,13 +50,11 @@ public class ElementSettingsPopulatorTest {
 
         var configBuilder = TestConfig.builder()
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(true)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(true);
         populator.populateConfig(configBuilder, this.getClass());
 
         var config = configBuilder.build();
         assertTrue(config.rootScanningEnabled());
         assertTrue(config.rootHierarchyScanningEnabled());
-        assertTrue(config.internalScanningEnabled());
     }
 }

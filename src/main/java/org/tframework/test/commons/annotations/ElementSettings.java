@@ -23,11 +23,4 @@ public @interface ElementSettings {
      * @see org.tframework.core.elements.scanner.RootElementClassScanner
      */
     boolean rootHierarchyScanningEnabled() default true;
-
-    /**
-     * Control if the internal scanning should be enabled.
-     * @see org.tframework.core.elements.scanner.InternalElementClassScanner
-     */
-    boolean internalScanningEnabled() default true;
-
 }

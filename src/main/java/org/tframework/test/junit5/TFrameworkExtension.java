@@ -38,6 +38,7 @@ import org.tframework.test.commons.annotations.ExpectInitializationFailure;
 import org.tframework.test.commons.annotations.InjectInitializationException;
 import org.tframework.test.commons.appliers.TestConfigAppliersBundle;
 import org.tframework.test.commons.appliers.TestConfigAppliersFactory;
+import org.tframework.test.commons.delayers.TestDelayersFactory;
 import org.tframework.test.commons.populators.TestConfigPopulatorsBundle;
 import org.tframework.test.commons.populators.TestConfigPopulatorsFactory;
 import org.tframework.test.commons.validators.TestClassValidatorsBundle;
@@ -163,6 +164,9 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         launchResult = launcher.launchTestApplication(testConfig);
         if(launchResult instanceof SuccessfulLaunchResult successfulLaunchResult) {
             testClassElementContext = successfulLaunchResult.testClassElementContext().orElse(null);
+
+            var delayers = TestDelayersFactory.createDefaultDelayers(successfulLaunchResult, testClass);
+            delayers.delayTest(successfulLaunchResult, testClass);
         }
     }
 
@@ -238,8 +242,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                 .useTestClassAsRoot(true)
                 .findRootClassOnClasspath(false)
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(false)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(false);
     }
 
     /**
@@ -260,7 +263,6 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                 .useTestClassAsRoot(false)
                 .findRootClassOnClasspath(true)
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(true)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(true);
     }
 }
