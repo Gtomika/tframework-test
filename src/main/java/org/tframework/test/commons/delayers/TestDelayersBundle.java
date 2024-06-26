@@ -17,7 +17,7 @@ public class TestDelayersBundle {
     /**
      * One increment of delay in milliseconds.
      */
-    public static final int DEFAULT_DELAY_MILLIS = 50;
+    public static final int DEFAULT_DELAY_INTERVAL = 50;
 
     private final int delayMillis;
     private final List<TestDelayer> testDelayers;
@@ -50,7 +50,7 @@ public class TestDelayersBundle {
      * Creates a new {@link TestDelayersBundle} with the given delayers.
      */
     public static TestDelayersBundle of(List<TestDelayer> testDelayers) {
-        return new TestDelayersBundle(DEFAULT_DELAY_MILLIS, testDelayers);
+        return new TestDelayersBundle(DEFAULT_DELAY_INTERVAL, testDelayers);
     }
 
 }

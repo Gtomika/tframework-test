@@ -39,7 +39,6 @@ import org.tframework.test.commons.annotations.InjectInitializationException;
 import org.tframework.test.commons.appliers.TestConfigAppliersBundle;
 import org.tframework.test.commons.appliers.TestConfigAppliersFactory;
 import org.tframework.test.commons.delayers.TestDelayersFactory;
-import org.tframework.test.commons.delayers.TestDelayersBundle;
 import org.tframework.test.commons.populators.TestConfigPopulatorsBundle;
 import org.tframework.test.commons.populators.TestConfigPopulatorsFactory;
 import org.tframework.test.commons.validators.TestClassValidatorsBundle;
@@ -137,7 +136,6 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     private final TestConfigPopulatorsBundle populators;
     private final TestConfigAppliersBundle appliers;
     private final TestApplicationLauncher launcher;
-    private final TestDelayersBundle delayers;
     private LaunchResult launchResult;
     private ElementContext testClassElementContext;
 
@@ -152,7 +150,6 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         this.populators = TestConfigPopulatorsFactory.createTestConfigPopulators();
         this.appliers = TestConfigAppliersFactory.createTestConfigAppliers(EXTENSION_NAME);
         this.launcher = TestApplicationLauncherFactory.createTestApplicationLauncher();
-        this.delayers = TestDelayersFactory.createDefaultDelayers();
     }
 
     @Override
@@ -167,6 +164,8 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
         launchResult = launcher.launchTestApplication(testConfig);
         if(launchResult instanceof SuccessfulLaunchResult successfulLaunchResult) {
             testClassElementContext = successfulLaunchResult.testClassElementContext().orElse(null);
+
+            var delayers = TestDelayersFactory.createDefaultDelayers(successfulLaunchResult, testClass);
             delayers.delayTest(successfulLaunchResult, testClass);
         }
     }

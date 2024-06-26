@@ -23,8 +23,7 @@ import org.tframework.test.commons.annotations.SetProperties;
 @RootClassSettings(rootClass = DummyRootClass.class)
 @ElementSettings(
         rootScanningEnabled = true,
-        rootHierarchyScanningEnabled = false,
-        internalScanningEnabled = false
+        rootHierarchyScanningEnabled = false
 )
 @Element
 @ExtendWith(TFrameworkExtension.class)

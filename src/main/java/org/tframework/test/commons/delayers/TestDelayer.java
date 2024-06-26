@@ -1,5 +1,6 @@
 package org.tframework.test.commons.delayers;
 
+import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.SuccessfulLaunchResult;
 
 /**
@@ -7,7 +8,27 @@ import org.tframework.test.commons.SuccessfulLaunchResult;
  * and the test class. Note that only successful launches are passed to the delayer, failed
  * launches are not delayed.
  */
-public interface TestDelayer {
+public abstract class TestDelayer {
+
+    protected final AnnotationScanner annotationScanner;
+    protected final SuccessfulLaunchResult launchResult;
+    protected final Class<?> testClass;
+
+    protected TestDelayer(
+            AnnotationScanner annotationScanner,
+            SuccessfulLaunchResult launchResult,
+            Class<?> testClass
+    ) {
+        this.annotationScanner = annotationScanner;
+        this.launchResult = launchResult;
+        this.testClass = testClass;
+        init();
+    }
+
+    /**
+     * Initializes the delayer. All fields are already set.
+     */
+    protected abstract void init();
 
     /**
      * Decides whether to delay the test execution.
@@ -15,6 +36,6 @@ public interface TestDelayer {
      * @param testClass The test class.
      * @return True if the test should be delayed, false otherwise.
      */
-    boolean delayTest(SuccessfulLaunchResult launchResult, Class<?> testClass);
+    public abstract boolean delayTest(SuccessfulLaunchResult launchResult, Class<?> testClass);
 
 }

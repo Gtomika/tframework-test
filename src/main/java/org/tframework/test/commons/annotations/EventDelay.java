@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
 
 /**
  * Can be placed on TFramework test classes to delay the test execution until an event occurs.
- * The first event that is detected will cause the delay to end. This delay will be applied <b>after</b>
+ * The first event that is detected will cause the delay to end. You can only have
+ * one of this annotation on the test class. This delay will be applied <b>after</b>
  * the framework is initialized.
  * <p><br>
  * Suppose that the application under test has to perform some lengthy operation before it is ready to be tested.
