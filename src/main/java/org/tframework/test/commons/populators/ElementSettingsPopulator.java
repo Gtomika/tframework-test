@@ -17,7 +17,6 @@ public class ElementSettingsPopulator implements TestConfigPopulator {
         annotationScanner.scanOneStrict(testClass, ElementSettings.class).ifPresent(elementSettingsAnnotation -> {
             configBuilder.rootScanningEnabled(elementSettingsAnnotation.rootScanningEnabled());
             configBuilder.rootHierarchyScanningEnabled(elementSettingsAnnotation.rootHierarchyScanningEnabled());
-            configBuilder.internalScanningEnabled(elementSettingsAnnotation.internalScanningEnabled());
         });
     }
 

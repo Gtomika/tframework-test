@@ -242,8 +242,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                 .useTestClassAsRoot(true)
                 .findRootClassOnClasspath(false)
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(false)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(false);
     }
 
     /**
@@ -264,7 +263,6 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
                 .useTestClassAsRoot(false)
                 .findRootClassOnClasspath(true)
                 .rootScanningEnabled(true)
-                .rootHierarchyScanningEnabled(true)
-                .internalScanningEnabled(true);
+                .rootHierarchyScanningEnabled(true);
     }
 }

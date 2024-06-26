@@ -1,4 +1,7 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.junit5.delayers;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -9,8 +12,6 @@ import org.tframework.core.events.EventManager;
 import org.tframework.core.events.annotations.Subscribe;
 import org.tframework.test.commons.annotations.EventDelay;
 import org.tframework.test.junit5.IsolatedTFrameworkTest;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @EventDelay(topic = TFrameworkExtensionDelayTest.IMPORTANT_TOPIC)

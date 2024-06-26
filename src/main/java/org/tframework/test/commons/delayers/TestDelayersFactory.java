@@ -1,11 +1,11 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.delayers;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
 import org.tframework.test.commons.SuccessfulLaunchResult;
-
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TestDelayersFactory {

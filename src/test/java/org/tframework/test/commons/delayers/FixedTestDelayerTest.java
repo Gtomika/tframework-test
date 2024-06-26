@@ -1,5 +1,11 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.delayers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -7,12 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.SuccessfulLaunchResult;
 import org.tframework.test.commons.annotations.FixedDelay;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 @FixedDelay(millis = FixedTestDelayerTest.DELAY)
 @ExtendWith(MockitoExtension.class)

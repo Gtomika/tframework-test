@@ -25,8 +25,7 @@ import org.tframework.test.commons.annotations.RootClassSettings;
 )
 @ElementSettings(
         rootScanningEnabled = true, //only the root class (which is the test class) will be scanned
-        rootHierarchyScanningEnabled = false,
-        internalScanningEnabled = true
+        rootHierarchyScanningEnabled = false
 )
 @TFrameworkRootClass
 @Target(ElementType.TYPE)

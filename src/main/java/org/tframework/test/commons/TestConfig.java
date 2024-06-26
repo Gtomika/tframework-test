@@ -22,7 +22,6 @@ import org.tframework.test.junit5.TFrameworkExtension;
  *          nothing will be passed.
  * @param rootScanningEnabled Configures of the root class should be scanned for elements. True by default.
  * @param rootHierarchyScanningEnabled Configures of the root class hierarchy should be scanned for elements. True by default.
- * @param internalScanningEnabled Configures whether the internal packages should be scanned for elements. True by default.
  * @param profiles Configures the profiles that should be set for the test application.
  * @param properties Configures the properties that should be set for the test application. Properties should be provided
  *          as raw strings, where the name and value are separated by
@@ -47,7 +46,6 @@ public record TestConfig(
          List<String> commandLineArguments,
          boolean rootScanningEnabled,
          boolean rootHierarchyScanningEnabled,
-         boolean internalScanningEnabled,
          Set<String> profiles,
          Set<String> properties,
          boolean useTestClassAsRoot,

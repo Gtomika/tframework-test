@@ -1,5 +1,15 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.delayers;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -10,16 +20,6 @@ import org.tframework.core.events.EventManager;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.test.commons.SuccessfulLaunchResult;
 import org.tframework.test.commons.annotations.EventDelay;
-
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Consumer;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 @EventDelay(topic = EventTestDelayerTest.TOPIC)
 @ExtendWith(MockitoExtension.class)

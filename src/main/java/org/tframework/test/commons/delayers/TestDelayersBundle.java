@@ -1,11 +1,11 @@
+/* Licensed under Apache-2.0 2024. */
 package org.tframework.test.commons.delayers;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.tframework.test.commons.SuccessfulLaunchResult;
-
-import java.util.List;
 
 /**
  * Aggregates {@link TestDelayer}s and checks whether the test should be delayed.
