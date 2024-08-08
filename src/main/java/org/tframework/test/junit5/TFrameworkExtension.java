@@ -37,11 +37,12 @@ import org.tframework.core.elements.annotations.Element;
 import org.tframework.core.elements.annotations.InjectElement;
 import org.tframework.core.elements.context.ElementContext;
 import org.tframework.core.elements.dependency.DependencyDefinition;
-import org.tframework.core.elements.dependency.InjectAnnotationScanner;
+import org.tframework.core.elements.dependency.InjectAnnotationHelper;
 import org.tframework.core.elements.dependency.graph.ElementDependencyGraph;
 import org.tframework.core.reflection.annotations.AnnotationScanner;
 import org.tframework.core.reflection.annotations.AnnotationScannersFactory;
 import org.tframework.core.reflection.annotations.ComposedAnnotationScanner;
+import org.tframework.core.reflection.annotations.PreScannedAnnotations;
 import org.tframework.test.commons.FailedLaunchResult;
 import org.tframework.test.commons.LaunchResult;
 import org.tframework.test.commons.SuccessfulLaunchResult;
@@ -143,7 +144,7 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     private static final String DECLARED_AS_TEST_PARAMETER = "JUnit 5 test method parameter";
 
     private final AnnotationScanner annotationScanner = AnnotationScannersFactory.createComposedAnnotationScanner();
-    private final InjectAnnotationScanner injectAnnotationScanner = new InjectAnnotationScanner(annotationScanner);
+    private final InjectAnnotationHelper injectAnnotationHelper = new InjectAnnotationHelper();
 
     private final TestConfig.TestConfigBuilder configBuilder;
     private final TestClassValidatorsBundle validators;
@@ -216,7 +217,9 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
             return false;
         }
         if(launchResult.successfulLaunch()) {
-            return injectAnnotationScanner.hasAnyInjectAnnotations(parameterContext.getParameter());
+            var parameter = parameterContext.getParameter();
+            var preScannedAnnotations = PreScannedAnnotations.fromScanned(parameter, annotationScanner.scan(parameter));
+            return injectAnnotationHelper.hasAnyInjectAnnotations(preScannedAnnotations);
         } else {
             return annotationScanner.hasAnnotation(parameterContext.getParameter(), InjectInitializationException.class);
         }
@@ -226,11 +229,14 @@ public class TFrameworkExtension implements Extension, BeforeAllCallback, TestIn
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return switch (launchResult) {
             case SuccessfulLaunchResult successfulLaunchResult -> {
-                var definition = DependencyDefinition.fromParameter(parameterContext.getParameter());
+                var parameter = parameterContext.getParameter();
+                var preScannedAnnotations = PreScannedAnnotations.fromScanned(parameter, annotationScanner.scan(parameter));
+                var definition = DependencyDefinition.fromParameter(parameter);
                 yield successfulLaunchResult.dependencyResolver().resolveDependency(
                         definition,
                         testClassElementContext,
                         ElementDependencyGraph.empty(),
+                        preScannedAnnotations,
                         DECLARED_AS_TEST_PARAMETER
                 );
             }
